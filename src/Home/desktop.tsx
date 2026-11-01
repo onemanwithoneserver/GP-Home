@@ -1,8 +1,8 @@
 /**
- * Desktop view component: renders an empty white container within the desktop viewport.
+ * Desktop view component: renders an empty warm white container for Home.
  */
 export default function DesktopView() {
   return (
-    <div className="w-full min-h-[calc(100vh-60px)] bg-white" />
+    <div className="w-full h-full flex-1 bg-white" />
   );
 }

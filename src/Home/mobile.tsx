@@ -1,5 +1,5 @@
 /**
- * Mobile view component: renders an empty white container within the mobile viewport.
+ * Mobile view component: renders an empty warm white container for Home.
  */
 export default function MobileView() {
   return (

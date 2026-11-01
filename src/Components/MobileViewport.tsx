@@ -1,7 +1,3 @@
-/**
- * MobileViewport component: renders either a full desktop container
- * or an adaptive smartphone viewport frame that adjusts seamlessly to full height/width on mobile screens.
- */
 import { forwardRef, type HTMLAttributes, type ReactNode, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 

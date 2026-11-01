@@ -1,8 +1,3 @@
-/**
- * Gully Listings Brand Wordmark SVG component:
- * Exact vector glyphs trimmed to precise bounding box (no wasted margin),
- * rendering the prominent "gully LISTINGS" mark in Figma brand orange.
- */
 import type { SVGProps } from "react";
 
 export default function GullyLogo(props: SVGProps<SVGSVGElement>) {
@@ -86,4 +81,3 @@ export default function GullyLogo(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-

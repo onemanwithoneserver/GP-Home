@@ -1,7 +1,3 @@
-/**
- * CreateAccount root component: routes to desktop or mobile layout
- * based on the active viewport container.
- */
 import CreateAccountDesktop from "./desktop";
 import CreateAccountMobile from "./mobile";
 
@@ -12,4 +8,3 @@ export default function CreateAccount({ isMobile }: { isMobile: boolean }) {
     </div>
   );
 }
-

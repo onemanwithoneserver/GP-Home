@@ -1,9 +1,6 @@
-/**
- * Modern custom dropdown component: features warm light-themed styling matching Figma-GP,
- * animated chevron rotation, click-outside dismissal, Escape key detection, and accessible listbox options.
- */
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { ChevronDown, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export interface DropdownOption {
   value: string;
@@ -72,7 +69,7 @@ export default function Dropdown({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className={`w-full flex items-center justify-between gap-2 rounded-xl border border-[#E5DFD4] bg-white text-[#322822] font-semibold shadow-xs hover:border-[#F85B01]/50 hover:bg-[#FAF7F2] focus:outline-none focus:ring-2 focus:ring-[#F85B01]/20 transition-all duration-200 cursor-pointer backdrop-blur-md select-none ${sizeClasses}`}
+        className={`w-full flex items-center justify-between gap-2 rounded-[4px] border border-[#E5DFD4] bg-white text-[#322822] font-semibold shadow-2xs hover:border-[#F85B01]/50 hover:bg-[#FAF7F2] focus:outline-none focus:ring-2 focus:ring-[#F85B01]/20 transition-all duration-200 cursor-pointer backdrop-blur-md select-none ${sizeClasses}`}
       >
         <span className="truncate flex items-center gap-2">
           {selectedOption?.icon && (
@@ -89,46 +86,52 @@ export default function Dropdown({
         />
       </button>
 
-      {isOpen && (
-        <div
-          role="listbox"
-          className="absolute z-[120] mt-1.5 w-full min-w-[140px] rounded-xl border border-[#E5DFD4] bg-white/95 backdrop-blur-xl shadow-xl shadow-[#322822]/10 p-1 space-y-0.5 animate-in fade-in-0 zoom-in-95 duration-150 origin-top"
-        >
-          {options.map((opt) => {
-            const isSelected = opt.value === value;
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                role="option"
-                aria-selected={isSelected}
-                onClick={() => {
-                  onChange(opt.value);
-                  setIsOpen(false);
-                }}
-                className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer select-none text-left ${
-                  isSelected
-                    ? "bg-[#FFF4ED] text-[#C94A00]"
-                    : "text-[#322822] hover:bg-[#FAF7F2] hover:text-[#1E1713]"
-                }`}
-              >
-                <span className="truncate flex items-center gap-2">
-                  {opt.icon && (
-                    <span className="shrink-0 text-[#8C827A]">{opt.icon}</span>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            role="listbox"
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.98 }}
+            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute z-[120] mt-1 w-full min-w-[140px] rounded-[4px] border border-[#E5DFD4] bg-white/98 backdrop-blur-xl shadow-lg shadow-[#322822]/10 p-1 space-y-0.5 origin-top"
+          >
+            {options.map((opt) => {
+              const isSelected = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    onChange(opt.value);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer select-none text-left ${
+                    isSelected
+                      ? "bg-[#FFF4ED] text-[#C94A00]"
+                      : "text-[#322822] hover:bg-[#FAF7F2] hover:text-[#1E1713]"
+                  }`}
+                >
+                  <span className="truncate flex items-center gap-2">
+                    {opt.icon && (
+                      <span className="shrink-0 text-[#8C827A]">{opt.icon}</span>
+                    )}
+                    <span>{opt.label}</span>
+                  </span>
+                  {isSelected && (
+                    <Check
+                      size={13}
+                      className="shrink-0 text-[#F85B01] stroke-[2.5]"
+                    />
                   )}
-                  <span>{opt.label}</span>
-                </span>
-                {isSelected && (
-                  <Check
-                    size={13}
-                    className="shrink-0 text-[#F85B01] stroke-[2.5]"
-                  />
-                )}
-              </button>
-            );
-          })}
-        </div>
-      )}
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

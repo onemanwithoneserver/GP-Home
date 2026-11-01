@@ -76,197 +76,246 @@ export function LoginCard() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18, scale: 0.98 }}
+      initial={{ opacity: 0, y: 28, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full max-w-[385px] sm:max-w-[400px] lg:max-w-[410px] rounded-[4px] bg-white/95 backdrop-blur-2xl border border-[#E5DFD4] shadow-[0_24px_60px_rgba(50,40,34,0.14)] p-5 sm:p-6 lg:p-7 select-text"
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="w-full max-w-[390px] sm:max-w-[410px] lg:max-w-[420px] rounded-[4px] bg-white/97 backdrop-blur-2xl border border-[#E5DFD4]/60 shadow-[0_8px_40px_rgba(50,40,34,0.1),0_2px_12px_rgba(50,40,34,0.06),inset_0_1px_0_rgba(255,255,255,0.8)] overflow-hidden select-text"
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.08, duration: 0.35 }}
-        className="text-center text-xl sm:text-2xl lg:text-[26px] font-extrabold text-[#1E1713] tracking-tight leading-tight"
-      >
-        Welcome Back
-      </motion.h2>
-      <motion.p
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.12, duration: 0.35 }}
-        className="text-center text-[11px] sm:text-xs text-[#6B5E57] mt-1 font-medium"
-      >
-        Log in to your Gully Listings account
-      </motion.p>
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformOrigin: "left" }}
+        className="h-[3px] bg-gradient-to-r from-[#F85B01] via-[#FF7A00] to-[#F85B01]"
+      />
 
-      <div className="relative mt-3.5 sm:mt-4 p-1 w-full max-w-[220px] sm:max-w-[240px] mx-auto rounded-[4px] bg-[#F4EFE6] border border-[#E5DFD4] flex items-center h-8.5 sm:h-9">
-        {(["email", "phone"] as Tab[]).map((t) => {
-          const isActive = tab === t;
-          return (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              className={`relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full rounded-[2px] text-xs font-bold cursor-pointer transition-colors duration-200 select-none ${
-                isActive ? "text-white" : "text-[#4A3E39] hover:text-[#1E1713]"
-              }`}
-            >
-              {isActive && (
-                <motion.span
-                  layoutId="activeLoginTabPill"
-                  className="absolute inset-0 rounded-[2px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] shadow-xs shadow-orange-500/25"
-                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                />
-              )}
-              <span className="relative z-10 flex items-center gap-1.5">
-                {t === "email" ? <MailIcon /> : <PhoneIcon />}
-                <span>{t === "email" ? "Email" : "Phone"}</span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <div className="p-5 sm:p-6 lg:p-7">
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center text-[22px] sm:text-2xl lg:text-[26px] font-extrabold text-[#1E1713] tracking-[-0.02em] leading-tight"
+        >
+          Welcome Back
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.16, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center text-[11px] sm:text-xs text-[#8C827A] mt-1.5 font-medium tracking-wide"
+        >
+          Log in to your Gully Listings account
+        </motion.p>
 
-      <form className="mt-3.5 space-y-2.5 sm:space-y-3" onSubmit={handleSubmit}>
-        <AnimatePresence mode="wait">
-          {tab === "email" ? (
-            <motion.div
-              key="email"
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 8 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="space-y-1"
-            >
-              <label className="block text-xs font-bold text-[#1E1713]">
-                Email Address
-              </label>
-              <div className="flex items-center gap-2.5 h-10 px-3 rounded-[4px] border border-[#D9D2C7] bg-white text-[#8C827A] hover:border-[#B8ADA4] focus-within:border-[#F85B01] focus-within:ring-2 focus-within:ring-[#F85B01]/25 focus-within:shadow-[0_0_12px_rgba(248,91,1,0.15)] focus-within:text-[#F85B01] transition-all duration-200 shadow-2xs">
-                <MailIcon />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  className="flex-1 bg-transparent outline-none text-xs sm:text-[13px] text-[#1E1713] placeholder:text-[#8C827A] font-medium"
-                />
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="phone"
-              initial={{ opacity: 0, x: 8 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="space-y-1"
-            >
-              <label className="block text-xs font-bold text-[#1E1713]">
-                Phone Number
-              </label>
-              <div className="flex items-center rounded-[4px] border border-[#D9D2C7] bg-white overflow-hidden hover:border-[#B8ADA4] focus-within:border-[#F85B01] focus-within:ring-2 focus-within:ring-[#F85B01]/25 focus-within:shadow-[0_0_12px_rgba(248,91,1,0.15)] transition-all duration-200 shadow-2xs h-10">
-                <span className="h-full px-2.5 bg-[#F9F7F2] border-r border-[#D9D2C7] flex items-center text-xs font-bold text-[#1E1713]">
-                  +91
-                </span>
-                <div className="flex-1 flex items-center gap-2 px-2.5 text-[#8C827A] focus-within:text-[#F85B01]">
-                  <PhoneIcon />
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="relative mt-4 sm:mt-5 p-1 w-full max-w-[230px] sm:max-w-[250px] mx-auto rounded-[4px] bg-[#F4EFE6]/70 border border-[#E5DFD4]/80 flex items-center h-9 sm:h-9.5 shadow-[inset_0_1px_2px_rgba(50,40,34,0.04)]">
+            {(["email", "phone"] as Tab[]).map((t) => {
+              const isActive = tab === t;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setTab(t)}
+                  className={`relative z-10 flex-1 flex items-center justify-center gap-1.5 h-full rounded-[2px] text-xs font-bold cursor-pointer transition-colors duration-200 select-none ${
+                    isActive ? "text-white" : "text-[#6B5E57] hover:text-[#1E1713]"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeLoginTabPill"
+                      className="absolute inset-0 rounded-[2px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] shadow-[0_2px_8px_rgba(248,91,1,0.25)]"
+                      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    {t === "email" ? <MailIcon /> : <PhoneIcon />}
+                    <span>{t === "email" ? "Email" : "Phone"}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        <form className="mt-4 sm:mt-5 space-y-3 sm:space-y-3.5" onSubmit={handleSubmit}>
+          <AnimatePresence mode="wait">
+            {tab === "email" ? (
+              <motion.div
+                key="email"
+                initial={{ opacity: 0, x: -14 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 14 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-1.5"
+              >
+                <label className="block text-[11px] sm:text-xs font-bold text-[#322822] tracking-wide">
+                  Email Address
+                </label>
+                <div className="group flex items-center gap-2.5 h-10.5 sm:h-11 px-3.5 rounded-[4px] border border-[#D9D2C7] bg-white text-[#8C827A] hover:border-[#C4BAB0] focus-within:border-[#F85B01] focus-within:ring-[2.5px] focus-within:ring-[#F85B01]/15 focus-within:shadow-[0_0_0_4px_rgba(248,91,1,0.06)] focus-within:text-[#F85B01] transition-all duration-300">
+                  <MailIcon />
                   <input
-                    type="tel"
+                    type="email"
                     required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="Enter your mobile number"
-                    className="flex-1 bg-transparent outline-none text-xs sm:text-[13px] text-[#1E1713] placeholder:text-[#8C827A] font-medium"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="flex-1 bg-transparent outline-none text-xs sm:text-[13px] text-[#1E1713] placeholder:text-[#A49890] font-medium"
                   />
                 </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="phone"
+                initial={{ opacity: 0, x: 14 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -14 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className="space-y-1.5"
+              >
+                <label className="block text-[11px] sm:text-xs font-bold text-[#322822] tracking-wide">
+                  Phone Number
+                </label>
+                <div className="flex items-center rounded-[4px] border border-[#D9D2C7] bg-white overflow-hidden hover:border-[#C4BAB0] focus-within:border-[#F85B01] focus-within:ring-[2.5px] focus-within:ring-[#F85B01]/15 focus-within:shadow-[0_0_0_4px_rgba(248,91,1,0.06)] transition-all duration-300 h-10.5 sm:h-11">
+                  <span className="h-full px-3 bg-[#F4EFE6]/50 border-r border-[#D9D2C7] flex items-center text-xs font-bold text-[#322822]">
+                    +91
+                  </span>
+                  <div className="flex-1 flex items-center gap-2.5 px-3 text-[#8C827A] focus-within:text-[#F85B01]">
+                    <PhoneIcon />
+                    <input
+                      type="tel"
+                      required
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="Enter your mobile number"
+                      className="flex-1 bg-transparent outline-none text-xs sm:text-[13px] text-[#1E1713] placeholder:text-[#A49890] font-medium"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        <div className="space-y-1">
-          <div className="flex justify-between items-center">
-            <label className="text-xs font-bold text-[#1E1713]">
-              Password
-            </label>
-            <a
-              href="#forgot-password"
-              onClick={(e) => e.preventDefault()}
-              className="text-[11px] font-bold text-[#F85B01] hover:text-[#C94A00] underline underline-offset-4 decoration-[#F85B01]/70 hover:decoration-[#C94A00] transition"
-            >
-              Forgot password?
-            </a>
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center">
+              <label className="text-[11px] sm:text-xs font-bold text-[#322822] tracking-wide">
+                Password
+              </label>
+              <a
+                href="#forgot-password"
+                onClick={(e) => e.preventDefault()}
+                className="text-[10px] sm:text-[11px] font-bold text-[#F85B01] hover:text-[#C94A00] underline underline-offset-4 decoration-[#F85B01]/40 hover:decoration-[#C94A00] transition-all duration-200"
+              >
+                Forgot password?
+              </a>
+            </div>
+            <div className="flex items-center gap-2.5 h-10.5 sm:h-11 px-3.5 rounded-[4px] border border-[#D9D2C7] bg-white text-[#8C827A] hover:border-[#C4BAB0] focus-within:border-[#F85B01] focus-within:ring-[2.5px] focus-within:ring-[#F85B01]/15 focus-within:shadow-[0_0_0_4px_rgba(248,91,1,0.06)] focus-within:text-[#F85B01] transition-all duration-300">
+              <LockIcon />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                className="flex-1 bg-transparent outline-none text-xs sm:text-[13px] text-[#1E1713] placeholder:text-[#A49890] font-medium"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label="Toggle password visibility"
+                className="cursor-pointer hover:text-[#F85B01] active:scale-90 transition-all duration-200 p-0.5 rounded-[2px]"
+              >
+                <EyeIcon off={!showPassword} />
+              </button>
+            </div>
           </div>
-          <div className="flex items-center gap-2.5 h-10 px-3 rounded-[4px] border border-[#D9D2C7] bg-white text-[#8C827A] hover:border-[#B8ADA4] focus-within:border-[#F85B01] focus-within:ring-2 focus-within:ring-[#F85B01]/25 focus-within:shadow-[0_0_12px_rgba(248,91,1,0.15)] focus-within:text-[#F85B01] transition-all duration-200 shadow-2xs">
-            <LockIcon />
-            <input
-              type={showPassword ? "text" : "password"}
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="flex-1 bg-transparent outline-none text-xs sm:text-[13px] text-[#1E1713] placeholder:text-[#8C827A] font-medium"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              aria-label="Toggle password visibility"
-              className="cursor-pointer hover:text-[#F85B01] transition-colors p-0.5 rounded-[2px]"
-            >
-              <EyeIcon off={!showPassword} />
-            </button>
-          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.02, y: -1 }}
+            whileTap={{ scale: 0.975 }}
+            disabled={loading}
+            type="submit"
+            className="sheen relative overflow-hidden w-full h-10.5 sm:h-11 rounded-[4px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] hover:from-[#E24E00] hover:to-[#F85B01] text-white font-bold text-xs sm:text-sm shadow-[0_4px_16px_rgba(248,91,1,0.3),0_1px_4px_rgba(248,91,1,0.15)] hover:shadow-[0_6px_24px_rgba(248,91,1,0.35),0_2px_6px_rgba(248,91,1,0.2)] transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 mt-1"
+          >
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.span
+                  key="spinner"
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
+                  transition={{ duration: 0.15 }}
+                  className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                />
+              ) : (
+                <motion.span
+                  key="text"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  Log In
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </form>
+
+        <div className="flex items-center gap-3 my-4 sm:my-5">
+          <span className="flex-1 h-px bg-gradient-to-r from-transparent via-[#E5DFD4] to-transparent" />
+          <span className="text-[10px] sm:text-[11px] text-[#A49890] font-semibold uppercase tracking-widest">or</span>
+          <span className="flex-1 h-px bg-gradient-to-r from-transparent via-[#E5DFD4] to-transparent" />
         </div>
 
         <motion.button
           whileHover={{ scale: 1.015, y: -1 }}
           whileTap={{ scale: 0.98 }}
-          disabled={loading}
-          type="submit"
-          className="sheen relative overflow-hidden w-full h-10 sm:h-10.5 rounded-[4px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] hover:from-[#E24E00] hover:to-[#F85B01] text-white font-bold text-xs sm:text-sm shadow-md shadow-orange-500/25 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 mt-1"
-        >
-          {loading ? (
-            <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          ) : (
-            <span>Log In</span>
-          )}
-        </motion.button>
-      </form>
-
-      <div className="flex items-center gap-2.5 my-3 text-[10px] sm:text-[11px] text-[#8C827A] font-semibold uppercase">
-        <span className="flex-1 h-px bg-[#E5DFD4]" />
-        <span>or</span>
-        <span className="flex-1 h-px bg-[#E5DFD4]" />
-      </div>
-
-      <motion.button
-        whileHover={{ scale: 1.015, y: -1 }}
-        whileTap={{ scale: 0.98 }}
-        type="button"
-        disabled={googleLoading}
-        onClick={handleGoogleSignIn}
-        className="w-full h-10 rounded-[4px] border border-[#D9D2C7] bg-white hover:bg-[#FAF7F2] hover:border-[#B8ADA4] flex items-center justify-center gap-2 text-xs sm:text-[13px] font-bold text-[#1E1713] transition-all duration-200 shadow-2xs cursor-pointer"
-      >
-        {googleLoading ? (
-          <span className="w-4 h-4 border-2 border-[#322822] border-t-transparent rounded-full animate-spin" />
-        ) : (
-          <>
-            <GoogleIcon />
-            <span>Continue with Google</span>
-          </>
-        )}
-      </motion.button>
-
-      <p className="text-center text-[11px] sm:text-xs text-[#6B5E57] mt-3.5 font-medium">
-        Don't have an account?{" "}
-        <button
           type="button"
-          onClick={() => navigate(`/${targetViewport}/create-account`)}
-          className="font-bold text-[#F85B01] hover:text-[#C94A00] underline underline-offset-4 decoration-[#F85B01]/70 hover:decoration-[#C94A00] transition cursor-pointer"
+          disabled={googleLoading}
+          onClick={handleGoogleSignIn}
+          className="w-full h-10.5 sm:h-11 rounded-[4px] border border-[#D9D2C7] bg-white hover:bg-[#FDFBF8] hover:border-[#C4BAB0] hover:shadow-[0_2px_8px_rgba(50,40,34,0.06)] flex items-center justify-center gap-2.5 text-xs sm:text-[13px] font-bold text-[#1E1713] transition-all duration-300 cursor-pointer"
         >
-          Sign Up
-        </button>
-      </p>
+          <AnimatePresence mode="wait">
+            {googleLoading ? (
+              <motion.span
+                key="g-spinner"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                transition={{ duration: 0.15 }}
+                className="w-4 h-4 border-2 border-[#322822] border-t-transparent rounded-full animate-spin"
+              />
+            ) : (
+              <motion.span
+                key="g-text"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center gap-2.5"
+              >
+                <GoogleIcon />
+                <span>Continue with Google</span>
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </motion.button>
+
+        <p className="text-center text-[11px] sm:text-xs text-[#8C827A] mt-4 sm:mt-5 font-medium">
+          Don't have an account?{" "}
+          <button
+            type="button"
+            onClick={() => navigate(`/${targetViewport}/create-account`)}
+            className="font-bold text-[#F85B01] hover:text-[#C94A00] underline underline-offset-4 decoration-[#F85B01]/40 hover:decoration-[#C94A00] transition-all duration-200 cursor-pointer"
+          >
+            Sign Up
+          </button>
+        </p>
+      </div>
     </motion.div>
   );
 }
@@ -276,18 +325,18 @@ const containerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
+      staggerChildren: 0.1,
+      delayChildren: 0.06,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 14 },
+  hidden: { opacity: 0, y: 18 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
   },
 };
 
@@ -297,49 +346,56 @@ export default function LoginDesktop() {
       className="relative w-full h-full min-h-0 flex-1 overflow-hidden bg-cover bg-center flex flex-col justify-center select-text"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF8]/75 via-[#FDFBF8]/40 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF8]/85 via-[#FDFBF8]/50 to-[#FDFBF8]/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/15 via-transparent to-[#FDFBF8]/25 pointer-events-none" />
+
       <motion.div
-        animate={{ y: [0, -16, 0], scale: [1, 1.05, 1], opacity: [0.15, 0.22, 0.15] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -right-32 -bottom-32 w-[500px] h-[500px] rounded-full bg-[#F85B01]/20 blur-3xl pointer-events-none"
+        animate={{ y: [0, -22, 0], scale: [1, 1.06, 1], opacity: [0.12, 0.2, 0.12] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-36 -bottom-36 w-[600px] h-[600px] rounded-full bg-[#F85B01]/12 blur-[120px] pointer-events-none"
+      />
+      <motion.div
+        animate={{ y: [0, 16, 0], scale: [1, 1.04, 1], opacity: [0.06, 0.12, 0.06] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        className="absolute -left-28 -top-28 w-[400px] h-[400px] rounded-full bg-[#FF7A00]/8 blur-[100px] pointer-events-none"
       />
 
-      <div className="relative z-10 max-w-[1380px] w-full mx-auto h-full max-h-full flex-1 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-12 xl:gap-16 items-center px-8 sm:px-12 lg:px-16 xl:px-20 py-6 lg:py-8">
+      <div className="relative z-10 max-w-[1400px] w-full mx-auto h-full max-h-full flex-1 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-14 xl:gap-18 items-center px-8 sm:px-12 lg:px-16 xl:px-20 py-6 lg:py-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="show"
-          className="flex flex-col justify-center space-y-3.5 sm:space-y-4 lg:space-y-5 xl:space-y-6 pr-0 lg:pr-4"
+          className="flex flex-col justify-center space-y-4 sm:space-y-5 lg:space-y-6 xl:space-y-7 pr-0 lg:pr-6"
         >
-          <motion.div variants={itemVariants} className="pt-0.5">
-            <GullyLogo className="h-10 sm:h-11 lg:h-12 xl:h-13 w-auto drop-shadow-xs" />
+          <motion.div variants={itemVariants}>
+            <GullyLogo className="h-10 sm:h-11 lg:h-12 xl:h-14 w-auto drop-shadow-sm" />
           </motion.div>
 
-          <motion.div variants={itemVariants} className="flex items-center gap-2.5">
+          <motion.div variants={itemVariants} className="flex items-center gap-3">
             <motion.span
               initial={{ width: 0 }}
-              animate={{ width: 28 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className="h-0.5 bg-[#F85B01]"
+              animate={{ width: 32 }}
+              transition={{ duration: 0.55, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="h-[2px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] rounded-full"
             />
-            <span className="text-[11px] lg:text-xs tracking-[0.22em] uppercase text-[#F85B01] font-extrabold select-text">
+            <span className="text-[11px] lg:text-xs tracking-[0.25em] uppercase text-[#F85B01] font-extrabold select-text">
               {loginData.tagline}
             </span>
           </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="text-3xl sm:text-4xl lg:text-[40px] xl:text-[46px] font-black leading-[1.12] text-[#1E1713] tracking-tight select-text"
+            className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-black leading-[1.08] text-[#1E1713] tracking-[-0.025em] select-text"
           >
             {loginData.headline}
             <br />
             {loginData.headlineSub}{" "}
-            <span className="text-[#F85B01] drop-shadow-xs">{loginData.brand}</span>
+            <span className="text-[#F85B01] drop-shadow-sm">{loginData.brand}</span>
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="max-w-xl text-xs sm:text-[13px] lg:text-[15px] text-[#3E342F] font-medium leading-relaxed select-text"
+            className="max-w-xl text-[13px] sm:text-sm lg:text-[15px] text-[#4A3E39] font-medium leading-[1.7] select-text"
           >
             {loginData.subtitle}
           </motion.p>
@@ -349,27 +405,27 @@ export default function LoginDesktop() {
               <motion.button
                 key={id}
                 type="button"
-                whileHover={{ y: -4, scale: 1.03 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative h-20 sm:h-22 lg:h-[92px] rounded-[4px] flex flex-col items-center justify-center gap-1.5 text-center text-[11px] lg:text-xs font-extrabold cursor-pointer transition-all duration-200 border shadow-xs backdrop-blur-md bg-white/88 border-[#E5DFD4] text-[#1E1713] hover:bg-[#FFF4ED] hover:border-[#F85B01] hover:text-[#C94A00] hover:ring-2 hover:ring-[#F85B01]/25 hover:shadow-orange-500/10 select-text"
+                whileHover={{ y: -5, scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="group relative h-[82px] sm:h-[90px] lg:h-[96px] rounded-[4px] flex flex-col items-center justify-center gap-2 text-center text-[10px] sm:text-[11px] lg:text-xs font-extrabold cursor-pointer transition-all duration-300 border bg-white/90 backdrop-blur-lg border-[#E5DFD4]/80 text-[#322822] shadow-[0_1px_3px_rgba(50,40,34,0.04)] hover:bg-[#FFF8F3] hover:border-[#F85B01]/50 hover:text-[#C94A00] hover:ring-[2px] hover:ring-[#F85B01]/12 hover:shadow-[0_8px_24px_rgba(248,91,1,0.1)] select-text"
               >
-                <Icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-7.5 lg:h-7.5 text-[#F85B01] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-200" />
+                <Icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[#F85B01] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300" />
                 <span className="leading-tight px-1">{label}</span>
               </motion.button>
             ))}
           </motion.div>
 
           <motion.div variants={itemVariants} className="pt-0.5 select-text">
-            <div className="flex items-center divide-x divide-[#D9D2C7] max-w-xl py-2.5 px-3.5 bg-white/85 backdrop-blur-md rounded-[4px] border border-[#E5DFD4] shadow-2xs">
+            <div className="flex items-center divide-x divide-[#E5DFD4]/50 max-w-xl py-3 px-4 bg-white/85 backdrop-blur-lg rounded-[4px] border border-[#E5DFD4]/60 shadow-[0_2px_8px_rgba(50,40,34,0.04)]">
               {features.map(({ label, icon: FeatureIcon }) => (
                 <div
                   key={label}
-                  className="flex-1 px-2 sm:px-3 flex flex-col items-center justify-center text-center gap-1 group"
+                  className="flex-1 px-2 sm:px-3 flex flex-col items-center justify-center text-center gap-1.5 group"
                 >
-                  <div className="text-[#F85B01] group-hover:scale-115 transition-transform duration-200">
-                    <FeatureIcon size={15} />
+                  <div className="text-[#F85B01] group-hover:scale-115 transition-transform duration-300">
+                    <FeatureIcon size={16} />
                   </div>
-                  <span className="text-[10px] sm:text-[11px] font-bold text-[#1E1713] leading-tight">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-[#322822] leading-tight">
                     {label}
                   </span>
                 </div>

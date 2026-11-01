@@ -43,6 +43,131 @@ const GoogleIcon = () => (
   </svg>
 );
 
+function BackgroundWaves() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      <div className="absolute inset-x-0 bottom-0 h-48 sm:h-64 lg:h-80 overflow-hidden">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 w-[200%] h-full flex"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 2880 280"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="loginWaveGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#F85B01" stopOpacity="0.08" />
+                <stop offset="30%" stopColor="#FF7A00" stopOpacity="0.14" />
+                <stop offset="60%" stopColor="#F85B01" stopOpacity="0.09" />
+                <stop offset="100%" stopColor="#FF7A00" stopOpacity="0.14" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 120 C 360 40, 720 200, 1080 120 C 1440 40, 1800 200, 2160 120 C 2520 40, 2880 200, 3240 120 L 3240 280 L 0 280 Z"
+              fill="url(#loginWaveGrad1)"
+            />
+          </svg>
+        </motion.div>
+
+        <motion.div
+          animate={{ x: ["-50%", "0%"] }}
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 w-[200%] h-full flex"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 2880 280"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="loginWaveGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FF7A00" stopOpacity="0.06" />
+                <stop offset="40%" stopColor="#F85B01" stopOpacity="0.10" />
+                <stop offset="80%" stopColor="#FF9E40" stopOpacity="0.05" />
+                <stop offset="100%" stopColor="#F85B01" stopOpacity="0.10" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 160 C 480 80, 960 220, 1440 150 C 1920 80, 2400 220, 2880 150 C 3360 80, 3840 220, 4320 150 L 4320 280 L 0 280 Z"
+              fill="url(#loginWaveGrad2)"
+            />
+          </svg>
+        </motion.div>
+
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 w-[200%] h-full flex"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 2880 280"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="loginContourGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#F85B01" stopOpacity="0.18" />
+                <stop offset="50%" stopColor="#FF7A00" stopOpacity="0.32" />
+                <stop offset="100%" stopColor="#F85B01" stopOpacity="0.18" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 110 C 360 30, 720 190, 1080 110 C 1440 30, 1800 190, 2160 110 C 2520 30, 2880 190, 3240 110"
+              stroke="url(#loginContourGrad)"
+              strokeWidth="1.5"
+              strokeDasharray="6 8"
+            />
+            <path
+              d="M0 150 C 480 70, 960 210, 1440 140 C 1920 70, 2400 210, 2880 140 C 3360 70, 3840 210, 4320 140"
+              stroke="url(#loginContourGrad)"
+              strokeWidth="1"
+              strokeOpacity="0.7"
+            />
+          </svg>
+        </motion.div>
+      </div>
+
+      <div className="absolute inset-0">
+        {[
+          { top: "15%", left: "12%", size: 6, delay: 0, duration: 6 },
+          { top: "28%", left: "42%", size: 4, delay: 1.5, duration: 8 },
+          { top: "65%", left: "22%", size: 5, delay: 3, duration: 7 },
+          { top: "45%", left: "85%", size: 5, delay: 0.8, duration: 6.5 },
+          { top: "78%", left: "68%", size: 4, delay: 2.2, duration: 7.5 },
+        ].map((pt, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [0, -18, 0],
+              opacity: [0.25, 0.65, 0.25],
+              scale: [1, 1.25, 1],
+            }}
+            transition={{
+              duration: pt.duration,
+              delay: pt.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{
+              top: pt.top,
+              left: pt.left,
+              width: pt.size,
+              height: pt.size,
+            }}
+            className="absolute rounded-full bg-[#F85B01]/30 blur-[0.5px]"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function LoginCard() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -79,17 +204,19 @@ export function LoginCard() {
       initial={{ opacity: 0, y: 28, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="w-full max-w-[390px] sm:max-w-[410px] lg:max-w-[420px] rounded-[4px] bg-white/97 backdrop-blur-2xl border border-[#E5DFD4]/60 shadow-[0_8px_40px_rgba(50,40,34,0.1),0_2px_12px_rgba(50,40,34,0.06),inset_0_1px_0_rgba(255,255,255,0.8)] overflow-hidden select-text"
+      className="relative group/card w-full max-w-[390px] sm:max-w-[410px] lg:max-w-[420px] rounded-[4px] bg-white/97 backdrop-blur-2xl border border-[#E5DFD4]/70 shadow-[0_12px_44px_rgba(50,40,34,0.12),0_2px_12px_rgba(50,40,34,0.06),inset_0_1px_0_rgba(255,255,255,0.85)] overflow-hidden select-text"
     >
+      <div className="absolute -inset-[1px] rounded-[5px] bg-gradient-to-br from-[#F85B01]/20 via-transparent to-[#FF7A00]/15 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         style={{ transformOrigin: "left" }}
-        className="h-[3px] bg-gradient-to-r from-[#F85B01] via-[#FF7A00] to-[#F85B01]"
+        className="relative z-10 h-[3px] bg-gradient-to-r from-[#F85B01] via-[#FF7A00] to-[#F85B01]"
       />
 
-      <div className="p-5 sm:p-6 lg:p-7">
+      <div className="relative z-10 p-5 sm:p-6 lg:p-7">
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -346,18 +473,20 @@ export default function LoginDesktop() {
       className="relative w-full h-full min-h-0 flex-1 overflow-hidden bg-cover bg-center flex flex-col justify-center select-text"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF8]/85 via-[#FDFBF8]/50 to-[#FDFBF8]/10 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/15 via-transparent to-[#FDFBF8]/25 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF8]/88 via-[#FDFBF8]/55 to-[#FDFBF8]/15 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/15 via-transparent to-[#FDFBF8]/30 pointer-events-none" />
+
+      <BackgroundWaves />
 
       <motion.div
-        animate={{ y: [0, -22, 0], scale: [1, 1.06, 1], opacity: [0.12, 0.2, 0.12] }}
+        animate={{ y: [0, -22, 0], scale: [1, 1.06, 1], opacity: [0.12, 0.22, 0.12] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -right-36 -bottom-36 w-[600px] h-[600px] rounded-full bg-[#F85B01]/12 blur-[120px] pointer-events-none"
+        className="absolute -right-36 -bottom-36 w-[600px] h-[600px] rounded-full bg-[#F85B01]/14 blur-[120px] pointer-events-none"
       />
       <motion.div
-        animate={{ y: [0, 16, 0], scale: [1, 1.04, 1], opacity: [0.06, 0.12, 0.06] }}
+        animate={{ y: [0, 16, 0], scale: [1, 1.04, 1], opacity: [0.06, 0.14, 0.06] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 4 }}
-        className="absolute -left-28 -top-28 w-[400px] h-[400px] rounded-full bg-[#FF7A00]/8 blur-[100px] pointer-events-none"
+        className="absolute -left-28 -top-28 w-[400px] h-[400px] rounded-full bg-[#FF7A00]/10 blur-[100px] pointer-events-none"
       />
 
       <div className="relative z-10 max-w-[1400px] w-full mx-auto h-full max-h-full flex-1 grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-14 xl:gap-18 items-center px-8 sm:px-12 lg:px-16 xl:px-20 py-6 lg:py-8">

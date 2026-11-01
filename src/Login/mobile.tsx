@@ -3,13 +3,72 @@ import bg from "./Bg.png";
 import { LoginCard } from "./desktop";
 import { GullyLogo, categories, features, loginData } from "./data";
 
+function MobileBackgroundWaves() {
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      <div className="absolute inset-x-0 bottom-0 h-44 overflow-hidden">
+        <motion.div
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 w-[200%] h-full flex"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 1440 220"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="mWave1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#F85B01" stopOpacity="0.08" />
+                <stop offset="50%" stopColor="#FF7A00" stopOpacity="0.14" />
+                <stop offset="100%" stopColor="#F85B01" stopOpacity="0.08" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 100 C 180 40, 360 160, 540 100 C 720 40, 900 160, 1080 100 C 1260 40, 1440 160, 1620 100 L 1620 220 L 0 220 Z"
+              fill="url(#mWave1)"
+            />
+          </svg>
+        </motion.div>
+        <motion.div
+          animate={{ x: ["-50%", "0%"] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 w-[200%] h-full flex"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 1440 220"
+            preserveAspectRatio="none"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="mWave2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FF7A00" stopOpacity="0.06" />
+                <stop offset="50%" stopColor="#F85B01" stopOpacity="0.10" />
+                <stop offset="100%" stopColor="#FF7A00" stopOpacity="0.06" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 130 C 240 70, 480 180, 720 120 C 960 60, 1200 180, 1440 120 L 1440 220 L 0 220 Z"
+              fill="url(#mWave2)"
+            />
+          </svg>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 export default function LoginMobile() {
   return (
     <div
       className="relative w-full h-full min-h-full flex-1 overflow-x-hidden overflow-y-auto scrollbar-hide bg-cover bg-center flex flex-col justify-start select-text"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/85 via-[#FDFBF8]/55 to-[#FDFBF8]/30 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/88 via-[#FDFBF8]/58 to-[#FDFBF8]/32 pointer-events-none" />
+
+      <MobileBackgroundWaves />
 
       <motion.div
         animate={{ y: [0, -15, 0], scale: [1, 1.05, 1], opacity: [0.1, 0.18, 0.1] }}

@@ -1,6 +1,3 @@
-/**
- * Login data: property categories, feature highlights, and brand wordmark.
- */
 import type { ComponentType, SVGProps } from "react";
 import { ApartmentIcon, VillaIcon, PlotIcon, HouseIcon, GullyLogo } from "./svg icons";
 import { Search, PlusSquare, ArrowLeftRight, ShieldCheck } from "lucide-react";

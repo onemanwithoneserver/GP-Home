@@ -4,7 +4,11 @@
 @import './tailwind.css';
 @import './theme.css';
 
-/* Global scrollbar removal */
+::selection {
+  background-color: rgba(248, 91, 1, 0.25);
+  color: #1E1713;
+}
+
 * {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;

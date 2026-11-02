@@ -365,7 +365,7 @@ export function LoginCard() {
             whileTap={{ scale: 0.975 }}
             disabled={loading}
             type="submit"
-            className="sheen relative overflow-hidden w-full h-10.5 sm:h-11 rounded-[4px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] hover:from-[#E24E00] hover:to-[#F85B01] text-white font-bold text-xs sm:text-sm shadow-[0_4px_16px_rgba(248,91,1,0.3),0_1px_4px_rgba(248,91,1,0.15)] hover:shadow-[0_6px_24px_rgba(248,91,1,0.35),0_2px_6px_rgba(248,91,1,0.2)] transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 mt-1"
+            className="sheen relative overflow-hidden w-1/2 mx-auto h-10.5 sm:h-11 rounded-[4px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] hover:from-[#E24E00] hover:to-[#F85B01] text-white font-bold text-xs sm:text-sm shadow-[0_4px_16px_rgba(248,91,1,0.3),0_1px_4px_rgba(248,91,1,0.15)] hover:shadow-[0_6px_24px_rgba(248,91,1,0.35),0_2px_6px_rgba(248,91,1,0.2)] transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 mt-1"
           >
             <AnimatePresence mode="wait">
               {loading ? (
@@ -497,7 +497,7 @@ export default function LoginDesktop() {
           className="flex flex-col justify-center space-y-4 sm:space-y-5 lg:space-y-6 xl:space-y-7 pr-0 lg:pr-6"
         >
           <motion.div variants={itemVariants}>
-            <GullyLogo className="h-10 sm:h-11 lg:h-12 xl:h-14 w-auto drop-shadow-sm" />
+            <GullyLogo className="h-11 sm:h-12 lg:h-14 xl:h-16 w-auto drop-shadow-sm" />
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex items-center gap-3">

@@ -806,7 +806,7 @@ export default function CreateAccountDesktop() {
           className="flex flex-col justify-center space-y-4 sm:space-y-5 lg:space-y-6 xl:space-y-7 pr-0 lg:pr-6"
         >
           <motion.div variants={itemVariants}>
-            <GullyLogo className="h-10 sm:h-11 lg:h-12 xl:h-14 w-auto drop-shadow-sm" />
+            <GullyLogo className="h-11 sm:h-12 lg:h-14 xl:h-16 w-auto drop-shadow-sm" />
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex items-center gap-3">

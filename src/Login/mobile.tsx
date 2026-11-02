@@ -83,7 +83,7 @@ export default function LoginMobile() {
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           className="pt-1"
         >
-          <GullyLogo className="h-10 sm:h-11 w-auto drop-shadow-sm" />
+          <GullyLogo className="h-11 sm:h-12 w-auto drop-shadow-sm" />
         </motion.div>
 
         <motion.div

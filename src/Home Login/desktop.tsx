@@ -264,7 +264,14 @@ export default function HomeLoginDesktop() {
                     <button
                       key={item.id}
                       type="button"
-                      onClick={() => setAccountMenuOpen(false)}
+                      onClick={() => {
+                        setAccountMenuOpen(false);
+                        navigate(
+                          item.id === "dashboard"
+                            ? `/${targetViewport}/dashboard`
+                            : `/${targetViewport}/dashboard/${item.id}`,
+                        );
+                      }}
                       className="group w-full px-3 py-2.5 rounded-[4px] flex items-center gap-3.5 text-left text-[#322822] hover:bg-[#FFF8F3] hover:text-[#F85B01] transition-colors cursor-pointer"
                     >
                       <Icon className="w-4 h-4 text-[#6B5E57] group-hover:text-[#F85B01] shrink-0 transition-colors" />

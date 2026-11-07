@@ -210,7 +210,14 @@ export default function HomeLoginMobile() {
                     <button
                       key={item.id}
                       type="button"
-                      onClick={() => setAccountMenuOpen(false)}
+                      onClick={() => {
+                        setAccountMenuOpen(false);
+                        navigate(
+                          item.id === "dashboard"
+                            ? `/${targetViewport}/dashboard`
+                            : `/${targetViewport}/dashboard/${item.id}`,
+                        );
+                      }}
                       className="group w-full px-2.5 py-2 rounded-[4px] flex items-center gap-2.5 text-left text-[#322822] hover:bg-[#FFF8F3] hover:text-[#F85B01] transition-colors cursor-pointer"
                     >
                       <Icon className="w-3.5 h-3.5 text-[#6B5E57] group-hover:text-[#F85B01] shrink-0" />

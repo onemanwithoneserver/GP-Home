@@ -32,7 +32,6 @@ export interface MapPinItem {
 }
 
 export const navItems: NavItem[] = [
-  { id: "home", label: "Home" },
   { id: "videos", label: "Videos" },
   { id: "shortlist", label: "Shortlist" },
 ];

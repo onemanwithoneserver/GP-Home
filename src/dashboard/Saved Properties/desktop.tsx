@@ -1,109 +1,159 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { Building2, Heart, RotateCcw, Trash2, MapPin, X } from "lucide-react";
 import DashboardShell from "../Shell";
+import { savedPropertiesData, type SavedPropertyItem } from "./data";
 import {
-  savedPropertiesData,
-  Info,
-  Building2,
-  Trash2,
-  RotateCcw,
-  type SavedPropertyItem,
-} from "./data";
+  Page,
+  PageHeader,
+  Card,
+  DangerButton,
+  SecondaryButton,
+  EmptyState,
+} from "../ui";
 
 export default function SavedPropertiesDesktop() {
   const [properties, setProperties] = useState<SavedPropertyItem[]>(
     savedPropertiesData.defaultProperties,
   );
+  const [confirmRemoveProperty, setConfirmRemoveProperty] = useState<SavedPropertyItem | null>(null);
 
   return (
     <DashboardShell activeTab="saved-properties" isMobile={false}>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-5"
-      >
-        <div>
-          <h1 className="text-2xl font-extrabold text-[#1E1713] tracking-tight">
-            {savedPropertiesData.title}
-          </h1>
-          <p className="text-sm text-[#6B5E57] font-medium mt-1">
-            {savedPropertiesData.subtitle}
-          </p>
-        </div>
-
-        <div className="w-full rounded-[6px] bg-[#E8F4FD] border border-[#CAE4FA] px-4 py-3 flex items-center gap-3 text-xs sm:text-[13px] text-[#0C517A]">
-          <Info className="w-4 h-4 text-[#0284C7] shrink-0" />
-          <p className="leading-relaxed">
-            <span className="font-bold">{savedPropertiesData.previewNotice.prefix}</span>{" "}
-            <span>{savedPropertiesData.previewNotice.body}</span>{" "}
-            <span className="font-bold">{savedPropertiesData.previewNotice.suffix}</span>
-          </p>
-        </div>
+      <Page>
+        <PageHeader
+          title={savedPropertiesData.title}
+          subtitle={savedPropertiesData.subtitle}
+        />
 
         {properties.length === 0 ? (
-          <div className="w-full rounded-[8px] bg-white border border-[#E5DFD4] py-14 px-6 flex flex-col items-center justify-center text-center shadow-[0_2px_10px_rgba(50,40,34,0.04)]">
-            <p className="text-sm font-bold text-[#322822]">No saved properties right now.</p>
-            <button
-              type="button"
-              onClick={() => setProperties(savedPropertiesData.defaultProperties)}
-              className="mt-4 px-4 py-2 rounded-[6px] bg-[#FFF3EB] text-[#F85B01] text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Restore sample properties</span>
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {properties.map((prop) => (
-              <motion.div
-                key={prop.id}
-                layout
-                whileHover={{ y: -2 }}
-                className="rounded-[10px] bg-white border border-[#E5DFD4] overflow-hidden shadow-[0_2px_12px_rgba(50,40,34,0.05)] flex flex-col"
+          <EmptyState
+            icon={Heart}
+            title="No saved properties right now"
+            subtitle="Explore projects on the map or restore the sample properties to preview your shortlist."
+            action={
+              <SecondaryButton
+                icon={<RotateCcw className="w-4 h-4 text-[#F85B01]" />}
+                onClick={() => setProperties(savedPropertiesData.defaultProperties)}
               >
-                <div className="bg-[#322822] text-white px-5 py-6 flex items-center gap-3">
-                  <Building2 className="w-6 h-6 text-[#F85B01] shrink-0" />
-                  <h2 className="text-base font-extrabold tracking-tight">{prop.name}</h2>
-                </div>
+                Restore sample properties
+              </SecondaryButton>
+            }
+          />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {properties.map((prop) => (
+              <Card
+                key={prop.id}
+                interactive
+                className="overflow-hidden flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative bg-gradient-to-r from-[#1E1713] via-[#2D231E] to-[#422F24] text-white px-6 py-5 flex items-center gap-3.5 overflow-hidden">
+                    <span className="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-[#F85B01]/30 blur-xl pointer-events-none" />
+                    <span className="w-9 h-9 rounded-xl bg-white/10 ring-1 ring-white/15 flex items-center justify-center text-[#FFB074] shrink-0">
+                      <Building2 className="w-5 h-5" />
+                    </span>
+                    <div className="min-w-0">
+                      <h2 className="text-base font-black tracking-tight truncate">{prop.name}</h2>
+                    </div>
+                  </div>
 
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                  <div>
-                    <p className="text-sm text-[#6B5E57] font-medium">{prop.location}</p>
-                    <p className="text-xl font-extrabold text-[#1E1713] mt-2">{prop.price}</p>
+                  <div className="p-6 space-y-4">
+                    <div>
+                      <p className="text-xs text-[#7A6D64] font-semibold flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#F85B01]" />
+                        {prop.location}
+                      </p>
+                      <p className="text-2xl font-black text-[#1E1713] mt-2 tracking-tight">
+                        {prop.price}
+                      </p>
+                    </div>
 
-                    <div className="flex flex-wrap items-center gap-2 mt-3.5">
-                      <span className="px-3 py-1 rounded-full bg-[#F1ECE4] text-[#322822] text-xs font-semibold">
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      <span className="h-7 px-3 rounded-full bg-[#FAF6F1] text-[#322822] text-[11.5px] font-bold inline-flex items-center">
                         {prop.bhk}
                       </span>
-                      <span className="px-3 py-1 rounded-full bg-[#F1ECE4] text-[#322822] text-xs font-semibold">
+                      <span className="h-7 px-3 rounded-full bg-[#FAF6F1] text-[#322822] text-[11.5px] font-bold inline-flex items-center">
                         {prop.area}
                       </span>
-                      <span className="px-3 py-1 rounded-full bg-white border border-[#D8D0C5] text-[#322822] text-xs font-semibold">
+                      <span className="h-7 px-3 rounded-full bg-white border border-[#E2D9CD] text-[#7A6D64] text-[11.5px] font-bold inline-flex items-center">
                         {prop.status}
                       </span>
                     </div>
                   </div>
-
-                  <div className="pt-2">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setProperties((prev) => prev.filter((item) => item.id !== prop.id))
-                      }
-                      className="inline-flex items-center gap-2 text-xs sm:text-[13px] font-bold text-[#DC2626] hover:text-[#B91C1C] px-2.5 py-1.5 rounded-[6px] hover:bg-[#FEF2F2] transition-colors cursor-pointer"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      <span>{savedPropertiesData.removeLabel}</span>
-                    </button>
-                  </div>
                 </div>
-              </motion.div>
+
+                <div className="px-6 pb-5 pt-2 border-t border-[#F2ECE4] flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#A89C90]">
+                    Saved Property
+                  </span>
+                  <DangerButton
+                    icon={<Trash2 className="w-4 h-4" />}
+                    onClick={() => setConfirmRemoveProperty(prop)}
+                  >
+                    {savedPropertiesData.removeLabel}
+                  </DangerButton>
+                </div>
+              </Card>
             ))}
           </div>
         )}
-      </motion.div>
+      </Page>
+
+      <AnimatePresence>
+        {confirmRemoveProperty && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setConfirmRemoveProperty(null)}
+            className="fixed inset-0 z-50 bg-[#1E1713]/60 backdrop-blur-sm flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 16 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-[420px] rounded-3xl bg-white shadow-2xl border border-[#EEE6DB] p-6 sm:p-7 space-y-5"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-lg font-black text-[#1E1713] tracking-tight">
+                  Remove Saved Property?
+                </h3>
+                <button
+                  type="button"
+                  aria-label="Close dialog"
+                  onClick={() => setConfirmRemoveProperty(null)}
+                  className="w-8 h-8 rounded-full bg-[#FAF6F1] hover:bg-[#F2ECE4] text-[#6B5E57] hover:text-[#1E1713] flex items-center justify-center cursor-pointer transition-colors shrink-0"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <p className="text-xs text-[#7A6D64] font-medium leading-relaxed -mt-2">
+                Are you sure you want to remove <span className="font-bold text-[#1E1713]">{confirmRemoveProperty.name}</span>?
+              </p>
+
+              <div className="flex items-center justify-end gap-2.5 pt-2">
+                <SecondaryButton onClick={() => setConfirmRemoveProperty(null)}>
+                  Cancel
+                </SecondaryButton>
+                <DangerButton
+                  icon={<Trash2 className="w-4 h-4" />}
+                  onClick={() => {
+                    setProperties((prev) => prev.filter((item) => item.id !== confirmRemoveProperty.id));
+                    setConfirmRemoveProperty(null);
+                  }}
+                >
+                  Yes, Remove
+                </DangerButton>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </DashboardShell>
   );
 }
-

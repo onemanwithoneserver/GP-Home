@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Plus, Trash2, X } from "lucide-react";
 import DashboardShell from "../Shell";
+import { savedPlacesData, type SavedPlaceItem } from "./data";
 import {
-  savedPlacesData,
-  MapPin,
-  Plus,
-  Trash2,
-  Maximize2,
-  Minus,
-  type SavedPlaceItem,
-} from "./data";
+  Page,
+  PageHeader,
+  Card,
+  PrimaryButton,
+  SecondaryButton,
+  DangerButton,
+  TextField,
+  EmptyState,
+  MapPicker,
+  IconTile,
+} from "../ui";
 
 export default function SavedPlacesMobile() {
   const [places, setPlaces] = useState<SavedPlaceItem[]>([]);
@@ -44,86 +49,66 @@ export default function SavedPlacesMobile() {
 
   return (
     <DashboardShell activeTab="saved-places" isMobile={true}>
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.25 }}
-        className="space-y-4"
-      >
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h1 className="text-xl font-extrabold text-[#1E1713] tracking-tight">
-              {savedPlacesData.title}
-            </h1>
-            <p className="text-xs text-[#6B5E57] font-medium mt-0.5">
-              {savedPlacesData.subtitle}
-            </p>
-          </div>
-
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            type="button"
-            onClick={openModal}
-            className="sheen relative overflow-hidden px-3 py-2 rounded-[6px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] text-white text-xs font-bold shadow-[0_3px_10px_rgba(248,91,1,0.28)] inline-flex items-center gap-1.5 cursor-pointer shrink-0"
-          >
-            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>{savedPlacesData.addPlaceButton}</span>
-          </motion.button>
-        </div>
+      <Page isMobile>
+        <PageHeader
+          isMobile
+          title={savedPlacesData.title}
+          subtitle={savedPlacesData.subtitle}
+          actions={
+            <PrimaryButton
+              size="sm"
+              icon={<Plus className="w-3.5 h-3.5 stroke-[2.5]" />}
+              onClick={openModal}
+            >
+              {savedPlacesData.addPlaceButton}
+            </PrimaryButton>
+          }
+        />
 
         {places.length === 0 ? (
-          <div className="w-full rounded-[8px] bg-white border border-[#E5DFD4] py-12 px-4 flex flex-col items-center justify-center text-center shadow-[0_2px_8px_rgba(50,40,34,0.04)]">
-            <div className="w-11 h-11 rounded-full bg-[#FFF3EB] text-[#F85B01] flex items-center justify-center mb-3">
-              <MapPin className="w-5 h-5 stroke-[2.2]" />
-            </div>
-            <h2 className="text-sm font-extrabold text-[#1E1713]">
-              {savedPlacesData.emptyState.title}
-            </h2>
-            <p className="text-xs text-[#6B5E57] font-medium mt-1 max-w-[300px]">
-              {savedPlacesData.emptyState.subtitle}
-            </p>
-            <button
-              type="button"
-              onClick={openModal}
-              className="mt-4 px-3.5 py-2 rounded-[6px] bg-white border border-[#D8D0C5] text-[#322822] text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>{savedPlacesData.emptyState.ctaLabel}</span>
-            </button>
-          </div>
+          <EmptyState
+            isMobile
+            icon={MapPin}
+            title={savedPlacesData.emptyState.title}
+            subtitle={savedPlacesData.emptyState.subtitle}
+            action={
+              <SecondaryButton
+                size="sm"
+                icon={<Plus className="w-3.5 h-3.5 text-[#F85B01]" />}
+                onClick={openModal}
+              >
+                {savedPlacesData.emptyState.ctaLabel}
+              </SecondaryButton>
+            }
+          />
         ) : (
           <div className="space-y-3">
             {places.map((place) => (
-              <div
-                key={place.id}
-                className="rounded-[8px] bg-white border border-[#E5DFD4] p-4 flex items-center justify-between gap-3"
-              >
+              <Card key={place.id} className="p-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-9 h-9 rounded-full bg-[#FFF3EB] text-[#F85B01] flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4" />
-                  </div>
+                  <IconTile icon={MapPin} tone="brand" size="sm" />
                   <div className="min-w-0">
-                    <h3 className="text-xs font-extrabold text-[#1E1713] truncate">
+                    <h3 className="text-sm font-black text-[#1E1713] tracking-tight truncate">
                       {place.label}
                     </h3>
-                    <p className="text-[11px] text-[#6B5E57] font-medium truncate">
+                    <p className="text-[11px] text-[#7A6D64] font-medium truncate">
                       {place.address}
                     </p>
                   </div>
                 </div>
-                <button
-                  type="button"
+
+                <DangerButton
+                  size="sm"
+                  icon={<Trash2 className="w-3.5 h-3.5" />}
                   onClick={() => setPlaces((prev) => prev.filter((p) => p.id !== place.id))}
-                  className="inline-flex items-center gap-1 text-xs font-bold text-[#DC2626] px-2 py-1 rounded-[4px] cursor-pointer shrink-0"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
-                  <span>Remove</span>
-                </button>
-              </div>
+                  Remove
+                </DangerButton>
+              </Card>
             ))}
           </div>
         )}
-      </motion.div>
+      </Page>
 
       <AnimatePresence>
         {modalOpen && (
@@ -132,141 +117,88 @@ export default function SavedPlacesMobile() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setModalOpen(false)}
-            className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3"
+            className="fixed inset-0 z-50 bg-[#1E1713]/50 backdrop-blur-sm flex items-center justify-center p-3"
           >
             <motion.form
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              exit={{ opacity: 0, scale: 0.94, y: 12 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
               onSubmit={handleSavePlace}
-              className="w-full max-w-[360px] rounded-[10px] bg-white border border-[#E5DFD4] p-4 shadow-[0_16px_40px_rgba(0,0,0,0.25)] space-y-3.5 max-h-[86vh] overflow-y-auto scrollbar-hide"
+              className="w-full max-w-[370px] rounded-2xl bg-white border border-[#EEE6DB] p-4 shadow-[0_20px_45px_-15px_rgba(30,23,19,0.45)] space-y-3.5 max-h-[88vh] overflow-y-auto scrollbar-hide"
             >
-              <h2 className="text-base font-extrabold text-[#1E1713]">
-                {savedPlacesData.modal.title}
-              </h2>
-
-              <div>
-                <input
-                  type="text"
-                  value={placeLabel}
-                  onChange={(e) => setPlaceLabel(e.target.value)}
-                  placeholder={savedPlacesData.modal.labelPlaceholder}
-                  className="w-full h-10.5 rounded-[6px] border border-[#D8D0C5] focus:border-[#F85B01] px-3 text-xs text-[#1E1713] placeholder-[#6B5E57] outline-none"
-                />
-                <p className="text-[11px] text-[#6B5E57] mt-1">
-                  {savedPlacesData.modal.labelHelper}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {savedPlacesData.modal.quickChips.map((chip) => {
-                  const selected = placeLabel.toLowerCase() === chip.toLowerCase();
-                  return (
-                    <button
-                      key={chip}
-                      type="button"
-                      onClick={() => setPlaceLabel(chip)}
-                      className={`px-3 py-1 rounded-full text-xs font-semibold border cursor-pointer ${
-                        selected
-                          ? "bg-[#FFF3EB] border-[#F85B01] text-[#F85B01]"
-                          : "bg-white border-[#D8D0C5] text-[#322822]"
-                      }`}
-                    >
-                      {chip}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  value={placeAddress}
-                  onChange={(e) => setPlaceAddress(e.target.value)}
-                  placeholder={savedPlacesData.modal.addressPlaceholder}
-                  className="w-full h-10.5 rounded-[6px] border border-[#D8D0C5] focus:border-[#F85B01] px-3 text-xs text-[#1E1713] placeholder-[#6B5E57] outline-none"
-                />
-                <p className="text-[11px] text-[#6B5E57] mt-1">
-                  {savedPlacesData.modal.addressHelper}
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-xs font-extrabold text-[#1E1713]">
-                  {savedPlacesData.modal.mapTitle}
-                </h3>
-                <p className="text-[11px] text-[#6B5E57] font-medium mt-0.5">
-                  {savedPlacesData.modal.mapSubtitle}
-                </p>
-
-                <div
-                  onClick={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    const x = Math.min(88, Math.max(12, ((e.clientX - rect.left) / rect.width) * 100));
-                    const y = Math.min(86, Math.max(14, ((e.clientY - rect.top) / rect.height) * 100));
-                    setPinPos({ x, y });
-                  }}
-                  className="relative mt-2 w-full h-[170px] rounded-[8px] bg-white border border-[#E5DFD4] overflow-hidden cursor-crosshair select-none"
-                >
-                  <div
-                    style={{ left: `${pinPos.x}%`, top: `${pinPos.y}%` }}
-                    className="absolute -translate-x-1/2 -translate-y-full pointer-events-none"
-                  >
-                    <svg viewBox="0 0 24 32" className="w-7 h-9 drop-shadow-md">
-                      <path
-                        d="M12 0C5.37 0 0 5.37 0 12c0 9 12 20 12 20s12-11 12-20c0-6.63-5.37-12-12-12z"
-                        fill="#EA4335"
-                      />
-                      <circle cx="12" cy="12" r="4.5" fill="#8E1B13" />
-                    </svg>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={(e) => e.stopPropagation()}
-                    aria-label="Expand map"
-                    className="absolute right-2.5 top-1/2 -translate-y-7 w-7 h-7 rounded-full bg-white border border-[#E5DFD4] shadow-sm flex items-center justify-center text-[#4A3E39]"
-                  >
-                    <Maximize2 className="w-3 h-3" />
-                  </button>
-
-                  <div
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute right-2.5 bottom-2.5 rounded-[4px] bg-white border border-[#E5DFD4] shadow-sm flex flex-col overflow-hidden"
-                  >
-                    <button
-                      type="button"
-                      aria-label="Zoom in"
-                      className="w-7 h-7 flex items-center justify-center text-[#4A3E39] border-b border-[#E5DFD4]"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="Zoom out"
-                      className="w-7 h-7 flex items-center justify-center text-[#4A3E39]"
-                    >
-                      <Minus className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-end gap-2.5 pt-1">
+              <div className="flex items-center justify-between pb-2 border-b border-[#F2ECE4]">
+                <h2 className="text-base font-black text-[#1E1713] tracking-tight">
+                  {savedPlacesData.modal.title}
+                </h2>
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-3.5 py-2 rounded-[6px] text-xs font-bold text-[#4A3E39] cursor-pointer"
+                  className="w-7 h-7 rounded-full bg-[#FAF6F1] text-[#6B5E57] flex items-center justify-center"
                 >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              <div>
+                <TextField
+                  isMobile
+                  label={savedPlacesData.modal.labelPlaceholder}
+                  value={placeLabel}
+                  onChange={(e) => setPlaceLabel(e.target.value)}
+                  helper={savedPlacesData.modal.labelHelper}
+                />
+
+                <div className="flex items-center gap-1.5 mt-2">
+                  {savedPlacesData.modal.quickChips.map((chip) => {
+                    const selected = placeLabel.toLowerCase() === chip.toLowerCase();
+                    return (
+                      <button
+                        key={chip}
+                        type="button"
+                        onClick={() => setPlaceLabel(chip)}
+                        className={`h-7 px-3 rounded-full text-[11px] font-bold border transition-colors cursor-pointer ${
+                          selected
+                            ? "bg-[#FFF1E6] border-[#F85B01] text-[#E24E00]"
+                            : "bg-[#FAF8F5] border-[#E2D9CD] text-[#4A3E39]"
+                        }`}
+                      >
+                        {chip}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <TextField
+                isMobile
+                label={savedPlacesData.modal.addressPlaceholder}
+                value={placeAddress}
+                onChange={(e) => setPlaceAddress(e.target.value)}
+                helper={savedPlacesData.modal.addressHelper}
+              />
+
+              <div>
+                <div className="mb-1.5">
+                  <h3 className="text-[11px] font-black uppercase tracking-wider text-[#1E1713]">
+                    {savedPlacesData.modal.mapTitle}
+                  </h3>
+                  <p className="text-[10.5px] text-[#7A6D64] font-medium leading-tight">
+                    {savedPlacesData.modal.mapSubtitle}
+                  </p>
+                </div>
+
+                <MapPicker isMobile pinPos={pinPos} onChange={setPinPos} />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#F2ECE4]">
+                <SecondaryButton size="sm" onClick={() => setModalOpen(false)}>
                   {savedPlacesData.modal.cancelLabel}
-                </button>
-                <button
-                  type="submit"
-                  className="sheen relative overflow-hidden px-4 py-2 rounded-[6px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] text-white text-xs font-bold shadow-[0_3px_10px_rgba(248,91,1,0.28)] cursor-pointer"
-                >
+                </SecondaryButton>
+                <PrimaryButton size="sm" type="submit">
                   {savedPlacesData.modal.saveLabel}
-                </button>
+                </PrimaryButton>
               </div>
             </motion.form>
           </motion.div>
@@ -275,4 +207,3 @@ export default function SavedPlacesMobile() {
     </DashboardShell>
   );
 }
-

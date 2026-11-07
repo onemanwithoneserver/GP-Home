@@ -1,104 +1,122 @@
-import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
+import { ArrowUpRight, Compass, Heart, MapPin, MessageSquare, Sparkles } from "lucide-react";
 import DashboardShell from "../Shell";
-import { dashboardData, Info, User } from "./data";
+import { dashboardData } from "./data";
+import {
+  Page,
+  PageHeader,
+  Card,
+  PrimaryButton,
+  SecondaryButton,
+  CountUp,
+  IconTile,
+  AvatarBadge,
+  Skyline,
+} from "../ui";
 
 export default function DashboardDesktop() {
   const navigate = useNavigate();
   const location = useLocation();
   const targetViewport = location.pathname.startsWith("/mobile") ? "mobile" : "desktop";
 
+  const statIcons = {
+    "saved-places": MapPin,
+    "saved-properties": Heart,
+    "unread-responses": MessageSquare,
+  };
+
   return (
     <DashboardShell activeTab="dashboard" isMobile={false}>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-5"
-      >
-        <div>
-          <h1 className="text-2xl font-extrabold text-[#1E1713] tracking-tight">
-            {dashboardData.title}
-          </h1>
-          <p className="text-sm text-[#6B5E57] font-medium mt-1">
-            {dashboardData.subtitle}
-          </p>
-        </div>
+      <Page>
+        <PageHeader
+          title={dashboardData.title}
+          subtitle={dashboardData.subtitle}
+        />
 
-        <div className="w-full rounded-[6px] bg-[#E8F4FD] border border-[#CAE4FA] px-4 py-3 flex items-center gap-3 text-xs sm:text-[13px] text-[#0C517A]">
-          <Info className="w-4 h-4 text-[#0284C7] shrink-0" />
-          <p className="leading-relaxed">
-            <span className="font-bold">{dashboardData.previewNotice.prefix}</span>{" "}
-            <span>{dashboardData.previewNotice.body}</span>{" "}
-            <span className="font-bold">{dashboardData.previewNotice.suffix}</span>
-          </p>
-        </div>
-
-        <div className="w-full rounded-[8px] bg-white border border-[#E5DFD4] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-[0_2px_10px_rgba(50,40,34,0.04)]">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[#322822] text-white flex items-center justify-center shrink-0">
-              <User className="w-5 h-5 stroke-[2]" />
-            </div>
-            <div>
-              <h2 className="text-base font-extrabold text-[#1E1713]">
-                {dashboardData.welcomeCard.title}
-              </h2>
-              <p className="text-sm text-[#6B5E57] font-medium mt-0.5">
-                {dashboardData.welcomeCard.subtitle}
-              </p>
-            </div>
+        <Card className="overflow-hidden p-6 sm:p-8 bg-gradient-to-br from-white via-[#FCFAF7] to-[#FFF6EE]">
+          <div className="absolute right-0 bottom-0 text-[#F85B01]/[0.06] pointer-events-none">
+            <Skyline className="w-80 h-28" />
           </div>
+          <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-5">
+              <AvatarBadge size={68} dark={true} />
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF1E6] text-[#F85B01] text-[11px] font-extrabold mb-1.5">
+                  <Sparkles className="w-3 h-3" />
+                  Verified Buyer
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-[#1E1713] tracking-tight">
+                  {dashboardData.welcomeCard.title}
+                </h2>
+                <p className="text-sm text-[#7A6D64] font-medium mt-1">
+                  {dashboardData.welcomeCard.subtitle}
+                </p>
+              </div>
+            </div>
 
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="button"
-            onClick={() => navigate(`/${targetViewport}/home-login`)}
-            className="sheen relative overflow-hidden px-4 py-2.5 rounded-[6px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] hover:from-[#E24E00] hover:to-[#F85B01] text-white text-xs sm:text-[13px] font-bold shadow-[0_4px_14px_rgba(248,91,1,0.28)] transition-all cursor-pointer shrink-0"
-          >
-            {dashboardData.welcomeCard.ctaLabel}
-          </motion.button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {dashboardData.stats.map((stat) => (
-            <motion.button
-              key={stat.id}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.99 }}
-              type="button"
-              onClick={() => navigate(`/${targetViewport}/dashboard/${stat.targetTab}`)}
-              className="rounded-[8px] bg-white border border-[#E5DFD4] hover:border-[#F85B01]/40 p-5 text-left transition-all shadow-[0_2px_10px_rgba(50,40,34,0.03)] cursor-pointer"
+            <PrimaryButton
+              size="md"
+              icon={<Compass className="w-4 h-4" />}
+              iconRight={<ArrowUpRight className="w-4 h-4" />}
+              onClick={() => navigate(`/${targetViewport}/home-login`)}
             >
-              <p className="text-xs sm:text-[13px] font-medium text-[#6B5E57]">
-                {stat.label}
-              </p>
-              <p className="text-2xl font-extrabold text-[#1E1713] mt-2">
-                {stat.value}
-              </p>
-            </motion.button>
-          ))}
+              {dashboardData.welcomeCard.ctaLabel}
+            </PrimaryButton>
+          </div>
+        </Card>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {dashboardData.stats.map((stat) => {
+            const Icon = statIcons[stat.id as keyof typeof statIcons] || Compass;
+            return (
+              <Card
+                key={stat.id}
+                interactive
+                onClick={() => navigate(`/${targetViewport}/dashboard/${stat.targetTab}`)}
+                className="p-6 cursor-pointer group"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <IconTile icon={Icon} tone="brand" size="md" />
+                  <span className="w-7 h-7 rounded-full bg-[#FAF6F1] group-hover:bg-[#FFF1E6] text-[#A89C90] group-hover:text-[#F85B01] flex items-center justify-center transition-colors">
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </div>
+                <p className="text-xs sm:text-[13px] font-bold text-[#7A6D64] uppercase tracking-wider">
+                  {stat.label}
+                </p>
+                <p className="text-3xl font-black text-[#1E1713] mt-2 tracking-tight">
+                  <CountUp value={stat.value} />
+                </p>
+              </Card>
+            );
+          })}
         </div>
 
-        <div className="w-full rounded-[8px] bg-white border border-[#E5DFD4] p-6 shadow-[0_2px_10px_rgba(50,40,34,0.04)]">
-          <h3 className="text-sm sm:text-base font-extrabold text-[#1E1713]">
-            {dashboardData.interestsCard.title}
-          </h3>
-          <p className="text-sm text-[#6B5E57] font-medium mt-2">
-            {dashboardData.interestsCard.subtitle}
-          </p>
-          <button
-            type="button"
-            onClick={() =>
-              navigate(`/${targetViewport}/dashboard/${dashboardData.interestsCard.targetTab}`)
-            }
-            className="mt-4 inline-flex items-center px-3 py-1.5 rounded-[6px] text-xs sm:text-[13px] font-bold text-[#322822] hover:text-[#F85B01] hover:bg-[#FFF8F3] transition-colors cursor-pointer"
-          >
-            {dashboardData.interestsCard.actionLabel}
-          </button>
-        </div>
-      </motion.div>
+        <Card className="p-6 sm:p-7">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#F85B01]" />
+                <h3 className="text-base sm:text-lg font-black text-[#1E1713] tracking-tight">
+                  {dashboardData.interestsCard.title}
+                </h3>
+              </div>
+              <p className="text-sm text-[#7A6D64] font-medium mt-1">
+                {dashboardData.interestsCard.subtitle}
+              </p>
+            </div>
+            <SecondaryButton
+              size="sm"
+              iconRight={<ArrowUpRight className="w-3.5 h-3.5" />}
+              onClick={() =>
+                navigate(`/${targetViewport}/dashboard/${dashboardData.interestsCard.targetTab}`)
+              }
+            >
+              {dashboardData.interestsCard.actionLabel}
+            </SecondaryButton>
+          </div>
+        </Card>
+      </Page>
     </DashboardShell>
   );
 }
-

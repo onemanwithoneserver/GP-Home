@@ -10,7 +10,6 @@ export interface ProfileFormValues {
 export const profileData = {
   title: "Profile",
   subtitle: "Manage your photo and personal details.",
-  previewNotice: "Preview: profile changes are saved only in this browser for your account.",
   changePhotoLabel: "Change photo",
   photoHelperText: "JPG, PNG, or WebP · Up to 1 MB. Save your profile to apply changes.",
   fields: {

@@ -13,11 +13,6 @@ export interface SavedPropertyItem {
 export const savedPropertiesData = {
   title: "Saved Properties",
   subtitle: "Keep the homes you like together as you plan your next move.",
-  previewNotice: {
-    prefix: "Preview: properties and builder replies are examples.",
-    body: "Interest changes are saved only in this browser.",
-    suffix: "Saved Places uses your connected account.",
-  },
   removeLabel: "Remove",
   defaultProperties: [
     {

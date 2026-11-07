@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { MessageSquare, Check, Building2 } from "lucide-react";
 import DashboardShell from "../Shell";
-import { responsesData, Info, type BuilderResponseItem } from "./data";
+import { responsesData, type BuilderResponseItem } from "./data";
+import {
+  Page,
+  PageHeader,
+  Card,
+  SecondaryButton,
+  IconTile,
+} from "../ui";
 
 export default function ResponsesDesktop() {
   const [items, setItems] = useState<BuilderResponseItem[]>(responsesData.defaultResponses);
@@ -14,41 +21,23 @@ export default function ResponsesDesktop() {
 
   return (
     <DashboardShell activeTab="responses" isMobile={false}>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="space-y-5"
-      >
-        <div>
-          <h1 className="text-2xl font-extrabold text-[#1E1713] tracking-tight">
-            {responsesData.title}
-          </h1>
-          <p className="text-sm text-[#6B5E57] font-medium mt-1">
-            {responsesData.subtitle}
-          </p>
-        </div>
+      <Page>
+        <PageHeader
+          title={responsesData.title}
+          subtitle={responsesData.subtitle}
+        />
 
-        <div className="w-full rounded-[6px] bg-[#E8F4FD] border border-[#CAE4FA] px-4 py-3 flex items-center gap-3 text-xs sm:text-[13px] text-[#0C517A]">
-          <Info className="w-4 h-4 text-[#0284C7] shrink-0" />
-          <p className="leading-relaxed">
-            <span className="font-bold">{responsesData.previewNotice.prefix}</span>{" "}
-            <span>{responsesData.previewNotice.body}</span>{" "}
-            <span className="font-bold">{responsesData.previewNotice.suffix}</span>
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2.5 pt-1">
+        <div className="flex items-center gap-2 pt-1">
           <button
             type="button"
             onClick={() => {
               setFilter("all");
               setSelectedId(null);
             }}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer ${
+            className={`h-9 px-4 rounded-full text-xs font-bold transition-all cursor-pointer ${
               filter === "all"
-                ? "bg-[#322822] text-white"
-                : "bg-[#EBE6DE] text-[#322822] hover:bg-[#E2DBD0]"
+                ? "bg-[#1E1713] text-white shadow-[0_6px_16px_-6px_rgba(30,23,19,0.6)]"
+                : "bg-white border border-[#E2D9CD] text-[#4A3E39] hover:border-[#F85B01]/50 hover:text-[#F85B01]"
             }`}
           >
             {responsesData.allFilterLabel}
@@ -60,18 +49,27 @@ export default function ResponsesDesktop() {
               setFilter("unread");
               setSelectedId(null);
             }}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-colors cursor-pointer ${
+            className={`h-9 px-4 rounded-full text-xs font-bold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
               filter === "unread"
-                ? "bg-[#322822] text-white"
-                : "bg-[#EBE6DE] text-[#322822] hover:bg-[#E2DBD0]"
+                ? "bg-[#1E1713] text-white shadow-[0_6px_16px_-6px_rgba(30,23,19,0.6)]"
+                : "bg-white border border-[#E2D9CD] text-[#4A3E39] hover:border-[#F85B01]/50 hover:text-[#F85B01]"
             }`}
           >
-            {responsesData.unreadFilterPrefix} ({unreadCount})
+            <span>{responsesData.unreadFilterPrefix}</span>
+            <span
+              className={`px-1.5 py-0.2 rounded-full text-[10.5px] font-extrabold ${
+                filter === "unread"
+                  ? "bg-[#F85B01] text-white"
+                  : "bg-[#FFF1E6] text-[#F85B01]"
+              }`}
+            >
+              {unreadCount}
+            </span>
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row items-start gap-4">
-          <div className="w-full md:w-[375px] shrink-0 rounded-[8px] bg-white border border-[#E5DFD4] overflow-hidden divide-y divide-[#E5DFD4] shadow-[0_2px_10px_rgba(50,40,34,0.03)]">
+        <div className="grid grid-cols-1 md:grid-cols-[380px_minmax(0,1fr)] gap-5 items-start">
+          <Card className="overflow-hidden divide-y divide-[#F2ECE4]">
             {visibleItems.map((item) => {
               const isSelected = selectedId === item.id;
               return (
@@ -84,52 +82,80 @@ export default function ResponsesDesktop() {
                       prev.map((r) => (r.id === item.id ? { ...r, unread: false } : r)),
                     );
                   }}
-                  className={`w-full p-4 sm:p-5 text-left transition-colors cursor-pointer block ${
-                    isSelected ? "bg-[#FFF8F3]" : "bg-white hover:bg-[#FAF8F5]"
+                  className={`w-full p-5 text-left transition-all cursor-pointer block relative ${
+                    isSelected
+                      ? "bg-gradient-to-r from-[#FFF4EC] to-white"
+                      : "bg-white hover:bg-[#FAF6F1]"
                   }`}
                 >
+                  {isSelected && (
+                    <span className="absolute left-0 top-0 bottom-0 w-1 bg-[#F85B01]" />
+                  )}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-extrabold text-[#1E1713]">
+                    <span className="text-sm font-black text-[#1E1713] tracking-tight">
                       {item.senderName}
                     </span>
                     {item.unread && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#322822] text-white text-[11px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#1E1713] text-white text-[10.5px] font-extrabold shadow-xs">
                         {responsesData.unreadBadge}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-[#322822] mt-2">{item.subject}</p>
-                  <p className="text-xs text-[#6B5E57] font-medium mt-1">
+                  <p className="text-[13px] font-semibold text-[#322822] mt-1.5 leading-snug">
+                    {item.subject}
+                  </p>
+                  <p className="text-xs text-[#7A6D64] font-medium mt-1 flex items-center gap-1">
+                    <Building2 className="w-3 h-3 text-[#F85B01]" />
                     {item.propertyName}
                   </p>
                 </button>
               );
             })}
-          </div>
+          </Card>
 
-          <div className="flex-1 w-full rounded-[8px] bg-white border border-[#E5DFD4] p-5 sm:p-6 min-h-[110px] shadow-[0_2px_10px_rgba(50,40,34,0.03)]">
+          <Card className="p-6 sm:p-7 min-h-[220px]">
             {selectedItem ? (
-              <div className="space-y-3">
-                <div className="border-b border-[#F1ECE4] pb-3">
-                  <h2 className="text-base font-extrabold text-[#1E1713]">
-                    {selectedItem.subject}
-                  </h2>
-                  <p className="text-xs text-[#6B5E57] font-medium mt-1">
-                    {selectedItem.senderName} · {selectedItem.propertyName}
-                  </p>
+              <div className="space-y-4">
+                <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#F2ECE4]">
+                  <div className="flex items-start gap-3.5">
+                    <IconTile icon={MessageSquare} tone="brand" size="md" />
+                    <div>
+                      <h2 className="text-lg font-black text-[#1E1713] tracking-tight">
+                        {selectedItem.subject}
+                      </h2>
+                      <p className="text-xs text-[#7A6D64] font-semibold mt-1">
+                        {selectedItem.senderName} · {selectedItem.propertyName}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-sm text-[#322822] leading-relaxed">
+
+                <p className="text-sm text-[#322822] leading-relaxed font-medium">
                   {selectedItem.message}
                 </p>
+
+                <div className="pt-3 flex items-center gap-3">
+                  <SecondaryButton
+                    size="sm"
+                    icon={<Check className="w-4 h-4 text-[#16A34A]" />}
+                  >
+                    Reply received
+                  </SecondaryButton>
+                </div>
               </div>
             ) : (
-              <p className="text-sm text-[#6B5E57] font-medium">
-                {responsesData.emptySelectionPrompt}
-              </p>
+              <div className="py-12 flex flex-col items-center justify-center text-center">
+                <div className="w-12 h-12 rounded-2xl bg-[#FAF6F1] text-[#A89C90] flex items-center justify-center mb-3">
+                  <MessageSquare className="w-6 h-6 stroke-[1.8]" />
+                </div>
+                <p className="text-sm text-[#7A6D64] font-medium">
+                  {responsesData.emptySelectionPrompt}
+                </p>
+              </div>
             )}
-          </div>
+          </Card>
         </div>
-      </motion.div>
+      </Page>
     </DashboardShell>
   );
 }

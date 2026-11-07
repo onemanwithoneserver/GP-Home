@@ -11,11 +11,6 @@ export interface DashboardStatCard {
 export const dashboardData = {
   title: "Dashboard",
   subtitle: "Your home search, all in one place.",
-  previewNotice: {
-    prefix: "Preview: properties and builder replies are examples.",
-    body: "Interest changes are saved only in this browser.",
-    suffix: "Saved Places uses your connected account.",
-  },
   welcomeCard: {
     title: "Welcome to your buyer account",
     subtitle: "Save what matters and keep up with your property enquiries.",

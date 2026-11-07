@@ -55,21 +55,25 @@ export default function Dropdown({
 
   const sizeClasses =
     size === "sm"
-      ? "text-xs py-1.5 px-3 min-h-[32px]"
+      ? "text-xs py-1.5 px-3 min-h-[34px] rounded-xl"
       : size === "lg"
-      ? "text-base py-2.5 px-4 min-h-[44px]"
-      : "text-sm py-2 px-3.5 min-h-[38px]";
+      ? "text-base py-2.5 px-4 min-h-[46px] rounded-2xl"
+      : "text-sm py-2 px-3.5 min-h-[40px] rounded-xl";
 
   const iconSize = size === "sm" ? 14 : size === "lg" ? 18 : 16;
 
   return (
-    <div ref={containerRef} className={`relative inline-block w-full ${className}`}>
+    <div ref={containerRef} className={`relative inline-block w-full select-none ${className}`}>
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className={`w-full flex items-center justify-between gap-2 rounded-[4px] border border-[#E5DFD4] bg-white text-[#322822] font-semibold shadow-2xs hover:border-[#F85B01]/50 hover:bg-[#FAF7F2] focus:outline-none focus:ring-2 focus:ring-[#F85B01]/20 transition-all duration-200 cursor-pointer backdrop-blur-md select-none ${sizeClasses}`}
+        className={`w-full flex items-center justify-between gap-2 border bg-white/90 backdrop-blur-md text-[#1E1713] font-bold transition-all duration-200 cursor-pointer ${
+          isOpen
+            ? "border-[#F85B01] shadow-[0_0_0_3px_rgba(248,91,1,0.15)] bg-white"
+            : "border-[#E5DFD4] hover:border-[#F85B01]/50 hover:bg-[#FAF8F5] shadow-xs"
+        } ${sizeClasses}`}
       >
         <span className="truncate flex items-center gap-2">
           {selectedOption?.icon && (
@@ -78,40 +82,43 @@ export default function Dropdown({
           <span>{selectedOption ? selectedOption.label : placeholder}</span>
         </span>
 
-        <ChevronDown
-          size={iconSize}
-          className={`shrink-0 text-[#8C827A] transition-transform duration-200 ${
-            isOpen ? "rotate-180 text-[#F85B01]" : ""
-          }`}
-        />
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          className="shrink-0 flex items-center justify-center text-[#8C827A]"
+        >
+          <ChevronDown size={iconSize} className={isOpen ? "text-[#F85B01]" : ""} />
+        </motion.span>
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
             role="listbox"
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            initial={{ opacity: 0, y: -6, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -4, scale: 0.98 }}
-            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute z-[120] mt-1 w-full min-w-[140px] rounded-[4px] border border-[#E5DFD4] bg-white/98 backdrop-blur-xl shadow-lg shadow-[#322822]/10 p-1 space-y-0.5 origin-top"
+            exit={{ opacity: 0, y: -4, scale: 0.96 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: "top center" }}
+            className="absolute z-[120] mt-1.5 w-full min-w-[160px] rounded-2xl border border-[#EEE6DB] bg-white/98 backdrop-blur-2xl shadow-[0_20px_45px_-12px_rgba(30,23,19,0.22),0_2px_6px_rgba(30,23,19,0.04)] p-1.5 space-y-0.5"
           >
             {options.map((opt) => {
               const isSelected = opt.value === value;
               return (
-                <button
+                <motion.button
                   key={opt.value}
                   type="button"
                   role="option"
                   aria-selected={isSelected}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => {
                     onChange(opt.value);
                     setIsOpen(false);
                   }}
-                  className={`w-full flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[2px] text-xs font-semibold transition-colors cursor-pointer select-none text-left ${
+                  className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-xs sm:text-[13px] font-bold transition-colors cursor-pointer select-none text-left ${
                     isSelected
-                      ? "bg-[#FFF4ED] text-[#C94A00]"
-                      : "text-[#322822] hover:bg-[#FAF7F2] hover:text-[#1E1713]"
+                      ? "bg-[#FFF1E6] text-[#E24E00]"
+                      : "text-[#322822] hover:bg-[#FAF6F1] hover:text-[#1E1713]"
                   }`}
                 >
                   <span className="truncate flex items-center gap-2">
@@ -121,12 +128,11 @@ export default function Dropdown({
                     <span>{opt.label}</span>
                   </span>
                   {isSelected && (
-                    <Check
-                      size={13}
-                      className="shrink-0 text-[#F85B01] stroke-[2.5]"
-                    />
+                    <span className="w-5 h-5 rounded-full bg-[#F85B01] text-white flex items-center justify-center shrink-0 shadow-[0_2px_6px_rgba(248,91,1,0.4)]">
+                      <Check size={12} strokeWidth={3} />
+                    </span>
                   )}
-                </button>
+                </motion.button>
               );
             })}
           </motion.div>

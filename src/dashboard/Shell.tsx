@@ -1,19 +1,21 @@
-import { useState, useEffect, type ReactNode } from "react";
+import { useEffect, useRef, useState, useCallback, type ComponentType, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Compass,
-  SlidersHorizontal,
-  Search,
-  User,
-  LogOut,
   LayoutGrid,
+  User,
   MapPin,
   Heart,
+  SlidersHorizontal,
   MessageSquare,
   Lock,
+  LogOut,
+  BadgeCheck,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-import { GullyLogo } from "../Login/svg icons";
+import SiteHeader from "../Components/site/SiteHeader";
+import { AvatarBadge } from "./ui";
 
 export type DashboardTabId =
   | "dashboard"
@@ -28,26 +30,27 @@ export interface DashboardTabItem {
   id: DashboardTabId;
   label: string;
   path: string;
+  icon: ComponentType<{ className?: string }>;
 }
 
 export const dashboardTabs: DashboardTabItem[] = [
-  { id: "dashboard", label: "Dashboard", path: "dashboard" },
-  { id: "profile", label: "Profile", path: "dashboard/profile" },
-  { id: "saved-places", label: "Saved Places", path: "dashboard/saved-places" },
-  { id: "saved-properties", label: "Saved Properties", path: "dashboard/saved-properties" },
-  { id: "preferred-interests", label: "Preferred Interests", path: "dashboard/preferred-interests" },
-  { id: "responses", label: "Responses", path: "dashboard/responses" },
-  { id: "change-password", label: "Change Password", path: "dashboard/change-password" },
+  { id: "dashboard", label: "Dashboard", path: "dashboard", icon: LayoutGrid },
+  { id: "profile", label: "Profile", path: "dashboard/profile", icon: User },
+  { id: "saved-places", label: "Saved Places", path: "dashboard/saved-places", icon: MapPin },
+  { id: "saved-properties", label: "Saved Properties", path: "dashboard/saved-properties", icon: Heart },
+  {
+    id: "preferred-interests",
+    label: "Preferred Interests",
+    path: "dashboard/preferred-interests",
+    icon: SlidersHorizontal,
+  },
+  { id: "responses", label: "Responses", path: "dashboard/responses", icon: MessageSquare },
+  { id: "change-password", label: "Change Password", path: "dashboard/change-password", icon: Lock },
 ];
 
-const accountDropdownItems = [
-  { id: "dashboard" as DashboardTabId, label: "Dashboard", icon: LayoutGrid },
-  { id: "profile" as DashboardTabId, label: "Profile", icon: User },
-  { id: "saved-places" as DashboardTabId, label: "Saved Places", icon: MapPin },
-  { id: "saved-properties" as DashboardTabId, label: "Saved Properties", icon: Heart },
-  { id: "preferred-interests" as DashboardTabId, label: "Preferred Interests", icon: SlidersHorizontal },
-  { id: "responses" as DashboardTabId, label: "Responses", icon: MessageSquare },
-  { id: "change-password" as DashboardTabId, label: "Change Password", icon: Lock },
+const shellNavItems = [
+  { id: "videos", label: "Videos" },
+  { id: "shortlist", label: "Shortlist" },
 ];
 
 interface DashboardShellProps {
@@ -56,392 +59,332 @@ interface DashboardShellProps {
   children: ReactNode;
 }
 
-export default function DashboardShell({
+function Ambient({ isMobile }: { isMobile?: boolean }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <motion.span
+        animate={{ x: [0, 40, 0], y: [0, 20, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        className={`absolute rounded-full bg-[#FFD9BD]/60 blur-3xl ${
+          isMobile ? "-top-20 -right-16 w-64 h-64" : "-top-32 right-[8%] w-[520px] h-[520px]"
+        }`}
+      />
+      <motion.span
+        animate={{ x: [0, -30, 0], y: [0, 30, 0] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        className={`absolute rounded-full bg-[#FFE9D6]/70 blur-3xl ${
+          isMobile ? "top-[40%] -left-20 w-56 h-56" : "top-[35%] -left-40 w-[460px] h-[460px]"
+        }`}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(50,40,34,0.05)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" />
+    </div>
+  );
+}
+
+interface ScrollableChipBarProps {
+  tabs: DashboardTabItem[];
+  activeTab: DashboardTabId;
+  onSelect: (tabId: string) => void;
+  layoutId: string;
+  compact?: boolean;
+}
+
+function ScrollableChipBar({
+  tabs,
   activeTab,
-  isMobile = false,
-  children,
-}: DashboardShellProps) {
+  onSelect,
+  layoutId,
+  compact = false,
+}: ScrollableChipBarProps) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const activeChipRef = useRef<HTMLButtonElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 6);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      el.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [updateScrollState]);
+
+  useEffect(() => {
+    if (activeChipRef.current) {
+      activeChipRef.current.scrollIntoView({
+        inline: "center",
+        block: "nearest",
+        behavior: "smooth",
+      });
+      const t = setTimeout(updateScrollState, 350);
+      return () => clearTimeout(t);
+    }
+  }, [activeTab, updateScrollState]);
+
+  const scroll = (direction: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const amount = direction === "left" ? -190 : 190;
+    el.scrollBy({ left: amount, behavior: "smooth" });
+    setTimeout(updateScrollState, 260);
+  };
+
+  return (
+    <div className="relative group/tabs flex items-center">
+      <AnimatePresence>
+        {canScrollLeft && (
+          <motion.div
+            initial={{ opacity: 0, x: -6 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -6 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="absolute left-0 top-0 bottom-0 z-10 flex items-center pr-5 pl-0 bg-gradient-to-r from-[#FBF8F4] via-[#FBF8F4]/90 to-transparent pointer-events-none"
+          >
+            <button
+              type="button"
+              aria-label="Scroll tabs left"
+              onClick={() => scroll("left")}
+              className="pointer-events-auto w-8 h-8 rounded-full bg-white/95 backdrop-blur-md border border-[#E5DFD4] shadow-[0_4px_12px_rgba(30,23,19,0.14)] text-[#322822] hover:text-[#F85B01] hover:border-[#F85B01]/50 active:scale-90 transition-all flex items-center justify-center cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div
+        ref={scrollRef}
+        className="flex items-center gap-1.5 overflow-x-auto scroll-smooth scrollbar-hide -mx-1 px-1 pb-1 w-full"
+      >
+        {tabs.map((tab) => {
+          const active = tab.id === activeTab;
+          const Icon = tab.icon;
+          return (
+            <button
+              key={tab.id}
+              ref={active ? activeChipRef : undefined}
+              type="button"
+              onClick={() => onSelect(tab.id)}
+              className={`relative inline-flex items-center gap-1.5 rounded-full whitespace-nowrap font-bold transition-colors cursor-pointer shrink-0 ${
+                compact ? "h-9 px-3.5 text-[12px]" : "h-10 px-4 text-[13px]"
+              } ${
+                active
+                  ? "text-white"
+                  : "text-[#4A3E39] bg-white/80 border border-[#EEE6DB] hover:text-[#F85B01] hover:border-[#F85B01]/40"
+              }`}
+            >
+              {active && (
+                <motion.span
+                  layoutId={layoutId}
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  className="absolute inset-0 rounded-full bg-[#1E1713] shadow-[0_8px_20px_-8px_rgba(30,23,19,0.6)]"
+                />
+              )}
+              <Icon className={`relative w-3.5 h-3.5 ${active ? "text-[#FFB074]" : ""}`} />
+              <span className="relative">{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <AnimatePresence>
+        {canScrollRight && (
+          <motion.div
+            initial={{ opacity: 0, x: 6 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 6 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="absolute right-0 top-0 bottom-0 z-10 flex items-center pl-5 pr-0 bg-gradient-to-l from-[#FBF8F4] via-[#FBF8F4]/90 to-transparent pointer-events-none"
+          >
+            <button
+              type="button"
+              aria-label="Scroll tabs right"
+              onClick={() => scroll("right")}
+              className="pointer-events-auto w-8 h-8 rounded-full bg-white/95 backdrop-blur-md border border-[#E5DFD4] shadow-[0_4px_12px_rgba(30,23,19,0.14)] text-[#322822] hover:text-[#F85B01] hover:border-[#F85B01]/50 active:scale-90 transition-all flex items-center justify-center cursor-pointer"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default function DashboardShell({ activeTab, isMobile = false, children }: DashboardShellProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const targetViewport = location.pathname.startsWith("/mobile") || isMobile ? "mobile" : "desktop";
 
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchFocused, setSearchFocused] = useState<boolean>(false);
-  const [accountMenuOpen, setAccountMenuOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setAccountMenuOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const handleTabSelect = (tabId: DashboardTabId) => {
+  const handleTabSelect = (tabId: string) => {
     const found = dashboardTabs.find((t) => t.id === tabId);
-    if (found) {
-      setAccountMenuOpen(false);
-      navigate(`/${targetViewport}/${found.path}`);
-    }
+    if (found) navigate(`/${targetViewport}/${found.path}`);
   };
+
+  const header = (
+    <SiteHeader
+      isMobile={isMobile}
+      variant="user"
+      navItems={shellNavItems}
+      activeNav=""
+      onNavChange={(id) => {
+        if (id === "shortlist") {
+          navigate(`/${targetViewport}/shortlist`);
+        } else {
+          navigate(`/${targetViewport}/home-login`);
+        }
+      }}
+      onLogoClick={() => navigate(`/${targetViewport}/home-login`)}
+      searchPlaceholder="Search places, projects..."
+      accountTitle="My Account"
+      accountSubtitle="Buyer account"
+      accountItems={dashboardTabs}
+      activeAccountId={activeTab}
+      onAccountSelect={handleTabSelect}
+      signOutLabel="Sign out"
+      onSignOut={() => navigate(`/${targetViewport}/home`)}
+    />
+  );
 
   if (isMobile) {
     return (
-      <div
-        onClick={() => setAccountMenuOpen(false)}
-        className="relative w-full h-full min-h-[620px] flex-1 flex flex-col bg-[#FDFBF8] overflow-y-auto overflow-x-hidden scrollbar-hide select-text"
-      >
-        <div className="sticky top-0 z-30 bg-white border-b border-[#E5DFD4] px-3.5 pt-3 pb-2.5 shrink-0 space-y-2.5">
-          <div className="flex items-center justify-between gap-2">
-            <button
-              type="button"
-              onClick={() => navigate(`/${targetViewport}/home-login`)}
-              className="flex items-center shrink-0 cursor-pointer"
-            >
-              <GullyLogo className="h-8 w-auto" />
-            </button>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => navigate(`/${targetViewport}/home-login`)}
-                className="px-2 py-1 rounded-[4px] text-[11px] font-bold text-[#322822] hover:text-[#F85B01] transition-colors cursor-pointer"
-              >
-                Home
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate(`/${targetViewport}/home-login`)}
-                className="px-2 py-1 rounded-[4px] text-[11px] font-bold text-[#322822] hover:text-[#F85B01] transition-colors cursor-pointer"
-              >
-                Videos
-              </button>
-
-              <motion.button
-                whileTap={{ scale: 0.94 }}
-                type="button"
-                aria-label="My Account Menu"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setAccountMenuOpen((prev) => !prev);
-                }}
-                className={`w-8.5 h-8.5 rounded-full flex items-center justify-center transition-colors cursor-pointer shrink-0 ${
-                  accountMenuOpen
-                    ? "bg-[#F85B01] text-white ring-2 ring-[#F85B01]/35"
-                    : "bg-[#322822] text-white"
-                }`}
-              >
-                <User className="w-4 h-4 stroke-[2]" />
-              </motion.button>
-            </div>
-          </div>
-
-          <div
-            className={`w-full h-9 rounded-[4px] bg-[#FAF8F5] border transition-colors flex items-center px-2 gap-1.5 ${
-              searchFocused ? "border-[#F85B01] bg-white" : "border-[#E5DFD4]"
-            }`}
-          >
-            <div className="w-6 h-6 rounded-[4px] bg-[#FFF3EB] text-[#F85B01] flex items-center justify-center shrink-0">
-              <Compass className="w-3.5 h-3.5" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search places, projects..."
-              className="flex-1 bg-transparent text-xs text-[#1E1713] placeholder-[#9C9088] font-medium outline-none min-w-0"
+      <div className="relative w-full h-full min-h-[620px] flex-1 flex flex-col bg-[#FBF8F4] overflow-y-auto overflow-x-hidden scrollbar-hide select-text">
+        {header}
+        <div className="relative flex-1">
+          <Ambient isMobile />
+          <div className="relative px-3.5 pt-4 pb-10 space-y-4">
+            <ScrollableChipBar
+              tabs={dashboardTabs}
+              activeTab={activeTab}
+              onSelect={handleTabSelect}
+              layoutId="dashChipMobile"
+              compact
             />
-            <button
-              type="button"
-              aria-label="Filter"
-              className="w-6.5 h-6.5 rounded-[4px] bg-[#F1ECE4] text-[#4A3E39] border border-[#E5DFD4] flex items-center justify-center cursor-pointer"
-            >
-              <SlidersHorizontal className="w-3 h-3" />
-            </button>
-            <button
-              type="button"
-              aria-label="Search"
-              className="w-6.5 h-6.5 rounded-[4px] bg-[#F1ECE4] hover:bg-[#F85B01] text-[#4A3E39] hover:text-white border border-[#E5DFD4] flex items-center justify-center cursor-pointer"
-            >
-              <Search className="w-3 h-3" />
-            </button>
+            {children}
           </div>
-        </div>
-
-        <AnimatePresence>
-          {accountMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.96 }}
-              transition={{ duration: 0.18 }}
-              onClick={(e) => e.stopPropagation()}
-              className="absolute top-14 right-3 z-40 w-[235px] rounded-[4px] bg-white border border-[#E5DFD4] shadow-[0_12px_32px_rgba(50,40,34,0.16)] overflow-hidden"
-            >
-              <div className="p-3 flex items-center gap-2.5 border-b border-[#F1ECE4]">
-                <div className="w-8.5 h-8.5 rounded-full bg-[#322822] text-white flex items-center justify-center shrink-0">
-                  <User className="w-4 h-4 stroke-[2]" />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="text-xs font-extrabold text-[#1E1713] truncate">My Account</h3>
-                  <p className="text-[11px] text-[#8C827A] font-medium truncate">Buyer account</p>
-                </div>
-              </div>
-              <div className="py-1 px-1 space-y-0.5">
-                {accountDropdownItems.map((item) => {
-                  const Icon = item.icon;
-                  const isCurrent = item.id === activeTab;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => handleTabSelect(item.id)}
-                      className={`group w-full px-2.5 py-2 rounded-[4px] flex items-center gap-2.5 text-left transition-colors cursor-pointer ${
-                        isCurrent
-                          ? "bg-[#FFF3EB] text-[#F85B01]"
-                          : "text-[#322822] hover:bg-[#FFF8F3] hover:text-[#F85B01]"
-                      }`}
-                    >
-                      <Icon
-                        className={`w-3.5 h-3.5 shrink-0 ${
-                          isCurrent ? "text-[#F85B01]" : "text-[#6B5E57] group-hover:text-[#F85B01]"
-                        }`}
-                      />
-                      <span className="text-xs font-semibold truncate">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="p-1 border-t border-[#F1ECE4]">
-                <button
-                  type="button"
-                  onClick={() => navigate(`/${targetViewport}/home`)}
-                  className="w-full px-2.5 py-2 rounded-[4px] flex items-center gap-2.5 text-left text-[#E24E00] hover:bg-[#FFF3EB] font-bold text-xs transition-colors cursor-pointer"
-                >
-                  <LogOut className="w-3.5 h-3.5 text-[#F85B01] shrink-0" />
-                  <span>Sign out</span>
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div className="w-full px-3.5 pt-4 pb-8 flex-1">
-          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide pb-2 mb-4">
-            {dashboardTabs.map((tab) => {
-              const active = tab.id === activeTab;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => handleTabSelect(tab.id)}
-                  className={`relative px-3 py-2 rounded-[6px] text-xs font-bold whitespace-nowrap transition-all duration-200 cursor-pointer shrink-0 ${
-                    active
-                      ? "bg-[#322822] text-white shadow-[0_3px_10px_rgba(50,40,34,0.18)]"
-                      : "bg-white text-[#4A3E39] border border-[#E5DFD4] hover:border-[#F85B01]/40 hover:text-[#F85B01]"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {children}
         </div>
       </div>
     );
   }
 
   return (
-    <div
-      onClick={() => setAccountMenuOpen(false)}
-      className="relative w-full h-full flex-1 flex flex-col bg-[#FDFBF8] overflow-y-auto overflow-x-hidden scrollbar-hide select-text"
-    >
-      <header className="sticky top-0 z-30 h-[68px] lg:h-[74px] w-full bg-white border-b border-[#E5DFD4] px-5 sm:px-8 lg:px-12 flex items-center justify-between gap-4 shrink-0">
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={() => navigate(`/${targetViewport}/home-login`)}
-          className="flex items-center shrink-0 cursor-pointer"
-        >
-          <GullyLogo className="h-9 sm:h-10 lg:h-11 w-auto" />
-        </motion.div>
-
-        <div className="relative flex-1 max-w-[520px] xl:max-w-[560px] mx-2 sm:mx-4">
-          <div
-            className={`w-full h-11 rounded-[4px] bg-[#FAF8F5] border transition-colors duration-200 flex items-center px-2 gap-2 ${
-              searchFocused
-                ? "border-[#F85B01] bg-white shadow-[0_0_0_2px_rgba(248,91,1,0.12)]"
-                : "border-[#E5DFD4] hover:border-[#D5CCC0]"
-            }`}
-          >
-            <div className="w-7 h-7 rounded-[4px] bg-[#FFF3EB] border border-[#F85B01]/20 flex items-center justify-center text-[#F85B01] shrink-0">
-              <Compass className="w-4 h-4" />
-            </div>
-
-            <input
-              type="text"
-              value={searchQuery}
-              onFocus={() => setSearchFocused(true)}
-              onBlur={() => setSearchFocused(false)}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search places, projects..."
-              className="flex-1 bg-transparent text-xs sm:text-sm text-[#1E1713] placeholder-[#9C9088] font-medium outline-none min-w-0 select-text"
-            />
-
-            <div className="flex items-center gap-1.5 shrink-0">
-              <button
-                type="button"
-                aria-label="Filter properties"
-                className="w-8 h-8 rounded-[4px] bg-[#F1ECE4]/90 hover:bg-[#FFF3EB] text-[#4A3E39] hover:text-[#F85B01] border border-[#E5DFD4]/80 hover:border-[#F85B01]/30 flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <SlidersHorizontal className="w-3.5 h-3.5" />
-              </button>
-
-              <button
-                type="button"
-                aria-label="Search"
-                className="w-8 h-8 rounded-[4px] bg-[#F1ECE4]/90 hover:bg-[#F85B01] text-[#4A3E39] hover:text-white border border-[#E5DFD4]/80 hover:border-[#F85B01] flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <Search className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6 lg:gap-9 shrink-0">
-          <nav className="flex items-center gap-6 lg:gap-8">
-            <button
-              type="button"
-              onClick={() => navigate(`/${targetViewport}/home-login`)}
-              className="py-1.5 text-xs lg:text-sm font-bold text-[#1E1713] hover:text-[#F85B01] transition-colors cursor-pointer"
+    <div className="relative w-full h-full flex-1 flex flex-col bg-[#FBF8F4] overflow-y-auto overflow-x-hidden scrollbar-hide select-text">
+      {header}
+      <div className="relative flex-1">
+        <Ambient />
+        <div className="relative max-w-[1240px] mx-auto px-6 lg:px-10 pt-8 pb-16 grid grid-cols-1 lg:grid-cols-[272px_minmax(0,1fr)] gap-8 lg:gap-10 items-start">
+          <aside className="hidden lg:block sticky top-[96px]">
+            <motion.div
+              initial={{ opacity: 0, x: -14 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-2xl bg-white/90 backdrop-blur-xl border border-[#EEE6DB] shadow-[0_1px_2px_rgba(50,40,34,0.04),0_20px_40px_-24px_rgba(50,40,34,0.3)] overflow-hidden"
             >
-              Home
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate(`/${targetViewport}/home-login`)}
-              className="py-1.5 text-xs lg:text-sm font-bold text-[#1E1713] hover:text-[#F85B01] transition-colors cursor-pointer"
-            >
-              Videos
-            </button>
-          </nav>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="button"
-            aria-label="My Account Menu"
-            onClick={(e) => {
-              e.stopPropagation();
-              setAccountMenuOpen((prev) => !prev);
-            }}
-            className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
-              accountMenuOpen
-                ? "bg-[#F85B01] text-white ring-3 ring-[#F85B01]/25 shadow-sm"
-                : "bg-[#322822] hover:bg-[#F85B01] text-white"
-            }`}
-          >
-            <User className="w-5 h-5 stroke-[2]" />
-          </motion.button>
-        </div>
-      </header>
-
-      <AnimatePresence>
-        {accountMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.96 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            onClick={(e) => e.stopPropagation()}
-            className="fixed top-[78px] right-8 sm:right-12 z-40 w-[260px] rounded-[4px] bg-white border border-[#E5DFD4] shadow-[0_14px_38px_rgba(50,40,34,0.14)] overflow-hidden"
-          >
-            <div className="p-4 flex items-center gap-3 border-b border-[#F1ECE4]">
-              <div className="w-10 h-10 rounded-full bg-[#322822] text-white flex items-center justify-center shrink-0">
-                <User className="w-5 h-5 stroke-[2]" />
+              <div className="relative h-20 bg-gradient-to-br from-[#1E1713] via-[#3A2A21] to-[#C24A0A] overflow-hidden">
+                <motion.span
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0.9, 0.6] }}
+                  transition={{ duration: 7, repeat: Infinity }}
+                  className="absolute -top-10 -right-6 w-32 h-32 rounded-full bg-[#F85B01]/60 blur-2xl"
+                />
+                <span className="absolute inset-0 opacity-[0.12] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:12px_12px]" />
               </div>
-              <div className="min-w-0">
-                <h3 className="text-sm font-extrabold text-[#1E1713] leading-tight truncate">
-                  My Account
-                </h3>
-                <p className="text-xs text-[#8C827A] font-medium mt-0.5 truncate">
+              <div className="relative px-5 -mt-8">
+                <AvatarBadge size={64} dark={false} />
+                <h3 className="mt-3 text-[15px] font-black text-[#1E1713] tracking-tight">My Account</h3>
+                <p className="text-[12px] text-[#7A6D64] font-semibold flex items-center gap-1 mt-0.5">
+                  <BadgeCheck className="w-3.5 h-3.5 text-[#F85B01]" />
                   Buyer account
                 </p>
               </div>
-            </div>
 
-            <div className="py-1.5 px-1.5 space-y-0.5">
-              {accountDropdownItems.map((item) => {
-                const Icon = item.icon;
-                const isCurrent = item.id === activeTab;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => handleTabSelect(item.id)}
-                    className={`group w-full px-3 py-2.5 rounded-[4px] flex items-center gap-3.5 text-left transition-colors cursor-pointer ${
-                      isCurrent
-                        ? "bg-[#FFF3EB] text-[#F85B01]"
-                        : "text-[#322822] hover:bg-[#FFF8F3] hover:text-[#F85B01]"
-                    }`}
-                  >
-                    <Icon
-                      className={`w-4 h-4 shrink-0 transition-colors ${
-                        isCurrent ? "text-[#F85B01]" : "text-[#6B5E57] group-hover:text-[#F85B01]"
-                      }`}
-                    />
-                    <span className="text-[13px] font-semibold truncate">{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+              <nav className="p-2.5 mt-3 space-y-0.5">
+                {dashboardTabs.map((tab) => {
+                  const active = tab.id === activeTab;
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => handleTabSelect(tab.id)}
+                      className="group relative w-full flex items-center gap-3 px-2.5 h-11 rounded-xl text-left cursor-pointer"
+                    >
+                      {active && (
+                        <motion.span
+                          layoutId="dashSideActive"
+                          transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                          className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#FFF1E6] to-[#FFF8F2] border border-[#F85B01]/15"
+                        />
+                      )}
+                      {!active && (
+                        <span className="absolute inset-0 rounded-xl bg-[#FAF6F1] opacity-0 group-hover:opacity-100 transition-opacity" />
+                      )}
+                      <span
+                        className={`relative w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                          active
+                            ? "bg-[#F85B01] text-white shadow-[0_6px_14px_-5px_rgba(248,91,1,0.7)]"
+                            : "bg-[#F6F1EA] text-[#6B5E57] group-hover:text-[#F85B01]"
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </span>
+                      <span
+                        className={`relative text-[13px] font-bold ${
+                          active ? "text-[#1E1713]" : "text-[#4A3E39] group-hover:text-[#1E1713]"
+                        }`}
+                      >
+                        {tab.label}
+                      </span>
+                      {active && (
+                        <motion.span
+                          layoutId="dashSideDot"
+                          className="relative ml-auto w-1.5 h-1.5 rounded-full bg-[#F85B01]"
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </nav>
 
-            <div className="p-1.5 border-t border-[#F1ECE4]">
-              <button
-                type="button"
-                onClick={() => navigate(`/${targetViewport}/home`)}
-                className="w-full px-3 py-2.5 rounded-[4px] flex items-center gap-3.5 text-left text-[#E24E00] hover:bg-[#FFF3EB] font-bold text-[13px] transition-colors cursor-pointer"
-              >
-                <LogOut className="w-4 h-4 text-[#F85B01] shrink-0" />
-                <span>Sign out</span>
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="p-2.5 border-t border-[#F2ECE4]">
+                <button
+                  type="button"
+                  onClick={() => navigate(`/${targetViewport}/home`)}
+                  className="w-full flex items-center gap-3 px-2.5 h-11 rounded-xl hover:bg-[#FEF2F2] transition-colors cursor-pointer"
+                >
+                  <span className="w-8 h-8 rounded-lg bg-[#FEF2F2] text-[#DC2626] flex items-center justify-center">
+                    <LogOut className="w-4 h-4" />
+                  </span>
+                  <span className="text-[13px] font-bold text-[#DC2626]">Sign out</span>
+                </button>
+              </div>
+            </motion.div>
+          </aside>
 
-      <div className="w-full max-w-[1040px] mx-auto px-6 sm:px-10 pt-7 pb-14 flex-1">
-        <div className="flex flex-wrap items-center gap-2 mb-7">
-          {dashboardTabs.map((tab) => {
-            const active = tab.id === activeTab;
-            return (
-              <motion.button
-                key={tab.id}
-                whileHover={{ y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                type="button"
-                onClick={() => handleTabSelect(tab.id)}
-                className={`relative px-4 py-2.5 rounded-[6px] text-xs sm:text-[13px] font-bold transition-all duration-200 cursor-pointer ${
-                  active
-                    ? "bg-[#322822] text-white shadow-[0_4px_14px_rgba(50,40,34,0.18)]"
-                    : "bg-white text-[#4A3E39] border border-[#D8D0C5] hover:border-[#F85B01]/50 hover:text-[#F85B01]"
-                }`}
-              >
-                {tab.label}
-              </motion.button>
-            );
-          })}
+          <main className="min-w-0 space-y-6">
+            <div className="lg:hidden">
+              <ScrollableChipBar
+                tabs={dashboardTabs}
+                activeTab={activeTab}
+                onSelect={handleTabSelect}
+                layoutId="dashChipDesktop"
+              />
+            </div>
+            {children}
+          </main>
         </div>
-
-        {children}
       </div>
     </div>
   );
 }
-

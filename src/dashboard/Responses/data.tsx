@@ -12,11 +12,6 @@ export interface BuilderResponseItem {
 export const responsesData = {
   title: "Responses",
   subtitle: "Read replies from builders about your property enquiries.",
-  previewNotice: {
-    prefix: "Preview: properties and builder replies are examples.",
-    body: "Interest changes are saved only in this browser.",
-    suffix: "Saved Places uses your connected account.",
-  },
   allFilterLabel: "All responses",
   unreadFilterPrefix: "Unread",
   unreadBadge: "Unread",

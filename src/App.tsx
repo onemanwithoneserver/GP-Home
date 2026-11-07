@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import Header, { type ViewMode } from "./Components/Header";
 import MobileViewport from "./Components/MobileViewport";
 import HomeView from "./Home";
+import HomeLoginView from "./Home Login";
 import Login from "./Login";
 import CreateAccount from "./CreateAccount";
 
@@ -16,7 +17,9 @@ export default function App() {
   const currentViewport: ViewMode = pathParts[0] === "mobile" ? "mobile" : "desktop";
 
   let currentView = "Login";
-  if (pathParts.some((p) => p.includes("home"))) {
+  if (pathParts.some((p) => p === "home-login" || p === "homelogin")) {
+    currentView = "Home Login";
+  } else if (pathParts.some((p) => p.includes("home"))) {
     currentView = "Home";
   } else if (pathParts.some((p) => p.includes("create") || p.includes("signup"))) {
     currentView = "Create Account";
@@ -26,6 +29,7 @@ export default function App() {
     typeof window !== "undefined" && window.innerWidth < 768 ? "mobile" : "desktop";
 
   const getViewSlug = (viewName: string): string => {
+    if (viewName === "Home Login") return "home-login";
     if (viewName === "Home") return "home";
     if (viewName === "Create Account") return "create-account";
     return "login";
@@ -76,11 +80,13 @@ export default function App() {
         <MobileViewport isMobile={currentViewport === "mobile"}>
           <Routes>
             <Route path="/desktop/home" element={<HomeView isMobile={false} />} />
+            <Route path="/desktop/home-login" element={<HomeLoginView isMobile={false} />} />
             <Route path="/desktop/login" element={<Login isMobile={false} />} />
             <Route path="/desktop/create-account" element={<CreateAccount isMobile={false} />} />
             <Route path="/desktop/signup" element={<Navigate to="/desktop/create-account" replace />} />
 
             <Route path="/mobile/home" element={<HomeView isMobile={true} />} />
+            <Route path="/mobile/home-login" element={<HomeLoginView isMobile={true} />} />
             <Route path="/mobile/login" element={<Login isMobile={true} />} />
             <Route path="/mobile/create-account" element={<CreateAccount isMobile={true} />} />
             <Route path="/mobile/signup" element={<Navigate to="/mobile/create-account" replace />} />
@@ -89,6 +95,7 @@ export default function App() {
             <Route path="/mobile" element={<Navigate to="/mobile/login" replace />} />
 
             <Route path="/home" element={<Navigate to={`/${defaultViewport}/home`} replace />} />
+            <Route path="/home-login" element={<Navigate to={`/${defaultViewport}/home-login`} replace />} />
             <Route path="/login" element={<Navigate to={`/${defaultViewport}/login`} replace />} />
             <Route path="/create-account" element={<Navigate to={`/${defaultViewport}/create-account`} replace />} />
             <Route path="/signup" element={<Navigate to={`/${defaultViewport}/create-account`} replace />} />

@@ -187,7 +187,7 @@ export function LoginCard() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigate(`/${targetViewport}/home`);
+      navigate(`/${targetViewport}/home-login`);
     }, 900);
   };
 
@@ -195,7 +195,7 @@ export function LoginCard() {
     setGoogleLoading(true);
     setTimeout(() => {
       setGoogleLoading(false);
-      navigate(`/${targetViewport}/home`);
+      navigate(`/${targetViewport}/home-login`);
     }, 800);
   };
 

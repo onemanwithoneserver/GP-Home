@@ -281,7 +281,7 @@ export function CreateAccountCard() {
     setGoogleLoading(true);
     setTimeout(() => {
       setGoogleLoading(false);
-      navigate(`/${targetViewport}/home`);
+      navigate(`/${targetViewport}/home-login`);
     }, 800);
   };
 

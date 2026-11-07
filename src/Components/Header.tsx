@@ -21,6 +21,7 @@ export default function Header({
 }: HeaderProps) {
   const dropdownOptions: DropdownOption[] = [
     { value: "Home", label: "Home" },
+    { value: "Home Login", label: "Home Login" },
     { value: "Login", label: "Login" },
     { value: "Create Account", label: "Create Account" },
   ];

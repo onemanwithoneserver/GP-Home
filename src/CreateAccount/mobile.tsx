@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import bg from "./Bg.png";
+import authResidence from "../Assets/Luxury/auth_residence.jpg";
 import { CreateAccountCard } from "./desktop";
 import {
   GullyLogo,
@@ -69,7 +69,7 @@ export default function CreateAccountMobile() {
   return (
     <div
       className="relative w-full h-full min-h-full flex-1 overflow-x-hidden overflow-y-auto scrollbar-hide bg-cover bg-center flex flex-col justify-start select-text"
-      style={{ backgroundImage: `url(${bg})` }}
+      style={{ backgroundImage: `url(${authResidence})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/88 via-[#FDFBF8]/58 to-[#FDFBF8]/32 pointer-events-none" />
 
@@ -99,12 +99,12 @@ export default function CreateAccountMobile() {
         >
           <div className="flex items-center justify-center gap-2">
             <span className="h-[2px] w-5 bg-gradient-to-r from-[#F85B01] to-[#FF7A00] rounded-full" />
-            <span className="text-[10px] tracking-[0.2em] uppercase text-[#F85B01] font-extrabold">
+            <span className="text-[10px] tracking-[0.2em] uppercase text-[#F85B01] font-semibold">
               {createAccountData.tagline}
             </span>
             <span className="h-[2px] w-5 bg-gradient-to-l from-[#F85B01] to-[#FF7A00] rounded-full" />
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-center leading-tight text-[#1E1713] tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-center leading-tight text-[#1E1713] tracking-tight">
             {createAccountData.headline}{" "}
             <span className="text-[#F85B01] drop-shadow-sm">{createAccountData.brand}</span>{" "}
             <span>{createAccountData.headlineSub}</span>
@@ -122,7 +122,7 @@ export default function CreateAccountMobile() {
               key={id}
               type="button"
               whileTap={{ scale: 0.94 }}
-              className="group rounded-[4px] backdrop-blur-lg flex flex-col items-center justify-center gap-1.5 py-2.5 px-1.5 text-[10px] font-extrabold text-center transition-all duration-300 cursor-pointer border bg-white/92 border-[#E5DFD4]/80 text-[#322822] shadow-[0_1px_3px_rgba(50,40,34,0.04)] hover:bg-[#FFF8F3] hover:border-[#F85B01]/50 hover:text-[#C94A00] hover:ring-[1.5px] hover:ring-[#F85B01]/15 active:bg-[#FFF4ED]"
+              className="group rounded-[4px] backdrop-blur-lg flex flex-col items-center justify-center gap-1.5 py-2.5 px-1.5 text-[10px] font-semibold text-center transition-all duration-300 cursor-pointer border bg-white/92 border-[#E5DFD4]/80 text-[#322822] shadow-[0_1px_3px_rgba(50,40,34,0.04)] hover:bg-[#FFF8F3] hover:border-[#F85B01]/50 hover:text-[#C94A00] hover:ring-[1.5px] hover:ring-[#F85B01]/15 active:bg-[#FFF4ED]"
             >
               <Icon className="w-5 h-5 text-[#F85B01] shrink-0 group-hover:scale-110 transition-transform duration-200" />
               <span className="leading-tight truncate max-w-full">{label}</span>

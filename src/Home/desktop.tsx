@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import SiteHeader from "../Components/site/SiteHeader";
+import SiteHeader from "./components/Header";
 import MapCanvas from "../Components/site/MapCanvas";
 import { navItems, mapFloatingControls, mapPins, homeData } from "./data";
 

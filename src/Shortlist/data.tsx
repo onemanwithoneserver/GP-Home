@@ -13,6 +13,10 @@ import {
   SlidersHorizontal,
   Share2,
 } from "lucide-react";
+import prop1 from "../Assets/Luxury/property_1.jpg";
+import prop2 from "../Assets/Luxury/property_2.jpg";
+import prop3 from "../Assets/Luxury/property_3.jpg";
+import prop4 from "../Assets/Luxury/property_4.jpg";
 
 export type PropertyCategory = "All" | "Apartment" | "Villa" | "Plot" | "Independent House";
 export type SortOption = "Recently Added" | "Price: Low to High" | "Price: High to Low" | "Area: Large to Small";
@@ -81,7 +85,7 @@ export const shortlistData = {
       baths: "2-4",
       acres: "12.5 Acres",
       tags: ["HMDA Approved", "Dual Clubhouses", "Vastu"],
-      imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      imageUrl: prop1,
       isShortlisted: true,
       addedAt: "2026-11-05",
       developer: "Jayam Infra Developers",
@@ -101,7 +105,7 @@ export const shortlistData = {
       baths: "4-5",
       acres: "6 Acres",
       tags: ["Gated Community", "Lake Facing", "Clubhouse"],
-      imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      imageUrl: prop2,
       isShortlisted: true,
       addedAt: "2026-11-04",
       developer: "Lakeview Luxury Estates",
@@ -121,7 +125,7 @@ export const shortlistData = {
       baths: "3-4",
       acres: "8 Acres",
       tags: ["Sky Lounge", "Co-working", "EV Ready"],
-      imageUrl: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+      imageUrl: prop3,
       isShortlisted: true,
       addedAt: "2026-11-03",
       developer: "Skyline Prime Living",
@@ -141,7 +145,7 @@ export const shortlistData = {
       baths: "NA",
       acres: "25 Acres",
       tags: ["DTCP", "Landscaped Parks", "Clubhouse"],
-      imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      imageUrl: prop4,
       isShortlisted: true,
       addedAt: "2026-11-01",
       developer: "Greenfield Lands & Resorts",

@@ -41,7 +41,7 @@ export default function PreferredInterestsDesktop() {
         <Card className="p-6 sm:p-8">
           <form onSubmit={handleSave} className="space-y-7">
             <div>
-              <h2 className="text-base font-black text-[#1E1713] tracking-tight">
+              <h2 className="text-base font-bold text-[#1E1713] tracking-tight">
                 {preferredInterestsData.configTitle}
               </h2>
               <p className="text-xs text-[#7A6D64] font-medium mt-1">

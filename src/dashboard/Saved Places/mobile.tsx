@@ -88,7 +88,7 @@ export default function SavedPlacesMobile() {
                 <div className="flex items-center gap-3 min-w-0">
                   <IconTile icon={MapPin} tone="brand" size="sm" />
                   <div className="min-w-0">
-                    <h3 className="text-sm font-black text-[#1E1713] tracking-tight truncate">
+                    <h3 className="text-sm font-bold text-[#1E1713] tracking-tight truncate">
                       {place.label}
                     </h3>
                     <p className="text-[11px] text-[#7A6D64] font-medium truncate">
@@ -129,7 +129,7 @@ export default function SavedPlacesMobile() {
               className="w-full max-w-[370px] rounded-2xl bg-white border border-[#EEE6DB] p-4 shadow-[0_20px_45px_-15px_rgba(30,23,19,0.45)] space-y-3.5 max-h-[88vh] overflow-y-auto scrollbar-hide"
             >
               <div className="flex items-center justify-between pb-2 border-b border-[#F2ECE4]">
-                <h2 className="text-base font-black text-[#1E1713] tracking-tight">
+                <h2 className="text-base font-bold text-[#1E1713] tracking-tight">
                   {savedPlacesData.modal.title}
                 </h2>
                 <button
@@ -181,7 +181,7 @@ export default function SavedPlacesMobile() {
 
               <div>
                 <div className="mb-1.5">
-                  <h3 className="text-[11px] font-black uppercase tracking-wider text-[#1E1713]">
+                  <h3 className="text-[11px] font-bold uppercase tracking-wider text-[#1E1713]">
                     {savedPlacesData.modal.mapTitle}
                   </h3>
                   <p className="text-[10.5px] text-[#7A6D64] font-medium leading-tight">

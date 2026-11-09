@@ -14,8 +14,9 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import SiteHeader from "../Components/site/SiteHeader";
+import SiteHeader from "../Home/components/Header";
 import { AvatarBadge } from "./ui";
+import dashPenthouse from "../Assets/Luxury/dashboard_penthouse.jpg";
 
 export type DashboardTabId =
   | "dashboard"
@@ -292,18 +293,25 @@ export default function DashboardShell({ activeTab, isMobile = false, children }
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="rounded-2xl bg-white/90 backdrop-blur-xl border border-[#EEE6DB] shadow-[0_1px_2px_rgba(50,40,34,0.04),0_20px_40px_-24px_rgba(50,40,34,0.3)] overflow-hidden"
             >
-              <div className="relative h-20 bg-gradient-to-br from-[#1E1713] via-[#3A2A21] to-[#C24A0A] overflow-hidden">
+              <div className="relative h-24 bg-gradient-to-br from-[#1E1713] via-[#3A2A21] to-[#C24A0A] overflow-hidden">
+                <img
+                  src={dashPenthouse}
+                  alt="Penthouse"
+                  className="absolute inset-0 w-full h-full object-cover opacity-45 mix-blend-luminosity animate-cinematic"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1E1713]/90 via-[#1E1713]/40 to-transparent" />
                 <motion.span
                   animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0.9, 0.6] }}
                   transition={{ duration: 7, repeat: Infinity }}
-                  className="absolute -top-10 -right-6 w-32 h-32 rounded-full bg-[#F85B01]/60 blur-2xl"
+                  className="absolute -top-10 -right-6 w-32 h-32 rounded-full bg-[#F85B01]/50 blur-2xl"
                 />
                 <span className="absolute inset-0 opacity-[0.12] bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:12px_12px]" />
+                <span className="absolute bottom-0 inset-x-0 h-px hairline-gold opacity-60" />
               </div>
               <div className="relative px-5 -mt-8">
                 <AvatarBadge size={64} dark={false} />
-                <h3 className="mt-3 text-[15px] font-black text-[#1E1713] tracking-tight">My Account</h3>
-                <p className="text-[12px] text-[#7A6D64] font-semibold flex items-center gap-1 mt-0.5">
+                <h3 className="mt-3 text-[15px] font-bold text-[#1E1713] tracking-tight">My Account</h3>
+                <p className="text-[12px] text-[#7A6D64] font-medium flex items-center gap-1 mt-0.5">
                   <BadgeCheck className="w-3.5 h-3.5 text-[#F85B01]" />
                   Buyer account
                 </p>

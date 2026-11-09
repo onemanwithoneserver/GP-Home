@@ -42,7 +42,7 @@ export default function PreferredInterestsMobile() {
         <Card className="p-4 sm:p-5">
           <form onSubmit={handleSave} className="space-y-5">
             <div>
-              <h2 className="text-sm font-black text-[#1E1713] tracking-tight">
+              <h2 className="text-sm font-bold text-[#1E1713] tracking-tight">
                 {preferredInterestsData.configTitle}
               </h2>
               <p className="text-[11.5px] text-[#7A6D64] font-medium mt-0.5">

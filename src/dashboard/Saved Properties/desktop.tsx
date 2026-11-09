@@ -55,29 +55,29 @@ export default function SavedPropertiesDesktop() {
                       <Building2 className="w-5 h-5" />
                     </span>
                     <div className="min-w-0">
-                      <h2 className="text-base font-black tracking-tight truncate">{prop.name}</h2>
+                      <h2 className="text-base font-bold tracking-tight truncate">{prop.name}</h2>
                     </div>
                   </div>
 
                   <div className="p-6 space-y-4">
                     <div>
-                      <p className="text-xs text-[#7A6D64] font-semibold flex items-center gap-1.5">
+                      <p className="text-xs text-[#7A6D64] font-medium flex items-center gap-1.5">
                         <MapPin className="w-3.5 h-3.5 text-[#F85B01]" />
                         {prop.location}
                       </p>
-                      <p className="text-2xl font-black text-[#1E1713] mt-2 tracking-tight">
+                      <p className="text-2xl font-bold text-[#1E1713] mt-2 tracking-tight">
                         {prop.price}
                       </p>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2 pt-1">
-                      <span className="h-7 px-3 rounded-full bg-[#FAF6F1] text-[#322822] text-[11.5px] font-bold inline-flex items-center">
+                      <span className="h-7 px-3 rounded-full bg-[#FAF6F1] text-[#322822] text-[11.5px] font-semibold inline-flex items-center">
                         {prop.bhk}
                       </span>
-                      <span className="h-7 px-3 rounded-full bg-[#FAF6F1] text-[#322822] text-[11.5px] font-bold inline-flex items-center">
+                      <span className="h-7 px-3 rounded-full bg-[#FAF6F1] text-[#322822] text-[11.5px] font-semibold inline-flex items-center">
                         {prop.area}
                       </span>
-                      <span className="h-7 px-3 rounded-full bg-white border border-[#E2D9CD] text-[#7A6D64] text-[11.5px] font-bold inline-flex items-center">
+                      <span className="h-7 px-3 rounded-full bg-white border border-[#E2D9CD] text-[#7A6D64] text-[11.5px] font-medium inline-flex items-center">
                         {prop.status}
                       </span>
                     </div>
@@ -85,7 +85,7 @@ export default function SavedPropertiesDesktop() {
                 </div>
 
                 <div className="px-6 pb-5 pt-2 border-t border-[#F2ECE4] flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#A89C90]">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-[#A89C90]">
                     Saved Property
                   </span>
                   <DangerButton
@@ -116,17 +116,17 @@ export default function SavedPropertiesDesktop() {
               exit={{ opacity: 0, scale: 0.94, y: 16 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-[420px] rounded-3xl bg-white shadow-2xl border border-[#EEE6DB] p-6 sm:p-7 space-y-5"
+              className="relative w-full max-w-[420px] rounded-[4px] bg-white shadow-2xl border border-[#EEE6DB] p-6 sm:p-7 space-y-5"
             >
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-lg font-black text-[#1E1713] tracking-tight">
+                <h3 className="text-lg font-bold text-[#1E1713] tracking-tight">
                   Remove Saved Property?
                 </h3>
                 <button
                   type="button"
                   aria-label="Close dialog"
                   onClick={() => setConfirmRemoveProperty(null)}
-                  className="w-8 h-8 rounded-full bg-[#FAF6F1] hover:bg-[#F2ECE4] text-[#6B5E57] hover:text-[#1E1713] flex items-center justify-center cursor-pointer transition-colors shrink-0"
+                  className="w-8 h-8 rounded-[4px] bg-[#FAF6F1] hover:bg-[#F2ECE4] text-[#6B5E57] hover:text-[#1E1713] flex items-center justify-center cursor-pointer transition-colors shrink-0"
                 >
                   <X className="w-4 h-4" />
                 </button>

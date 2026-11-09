@@ -1,6 +1,7 @@
 import { useState, type ComponentType } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus, Maximize2, Minimize2, X } from "lucide-react";
+import { Plus, Minus, Maximize2, Minimize2, ArrowLeft } from "lucide-react";
+import mapTexture from "../../Assets/Luxury/map_texture.jpg";
 
 export interface MapPinPoint {
   id: string;
@@ -75,6 +76,12 @@ export default function MapCanvas({ pins, controls, popupUrl, isMobile = false }
         transition={{ type: "spring", stiffness: 200, damping: 26 }}
         className="absolute inset-0"
       >
+        <img
+          src={mapTexture}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.07] pointer-events-none select-none mix-blend-multiply"
+        />
         <div className="absolute inset-0 bg-[radial-gradient(rgba(50,40,34,0.07)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_80%)]" />
 
         {pins.map((pin, i) => {
@@ -223,7 +230,7 @@ export default function MapCanvas({ pins, controls, popupUrl, isMobile = false }
           >
             <Minus className="w-4 h-4" />
           </button>
-          <span className="w-10 text-center text-[11px] font-extrabold text-[#6B5E57] tabular-nums">
+          <span className="w-10 text-center text-[11px] font-semibold text-[#6B5E57] tabular-nums">
             {Math.round(zoom * 100)}%
           </span>
           <button
@@ -264,17 +271,17 @@ export default function MapCanvas({ pins, controls, popupUrl, isMobile = false }
                 exit={{ y: "100%" }}
                 transition={{ type: "spring", stiffness: 320, damping: 36 }}
                 onClick={(e) => e.stopPropagation()}
-                className="absolute inset-x-0 bottom-0 top-2 rounded-t-[22px] bg-white overflow-hidden flex flex-col shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.45)]"
+                className="absolute inset-x-0 bottom-0 top-2 rounded-t-[4px] bg-white overflow-hidden flex flex-col shadow-[0_-20px_50px_-20px_rgba(0,0,0,0.45)]"
               >
                 <div className="relative h-11 shrink-0 flex items-center justify-center border-b border-[#F2ECE4]">
-                  <span className="w-10 h-1.5 rounded-full bg-[#E2D9CD]" />
+                  <span className="w-10 h-1 rounded-full bg-[#E2D9CD]" />
                   <button
                     type="button"
-                    aria-label="Close dialog"
+                    aria-label="Back to map"
                     onClick={() => setActivePin(null)}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#F6F1EA] hover:bg-[#F85B01] hover:text-white text-[#322822] flex items-center justify-center transition-colors cursor-pointer"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-[4px] bg-[#F6F1EA] hover:bg-[#F85B01] hover:text-white text-[#322822] flex items-center justify-center transition-colors cursor-pointer"
                   >
-                    <X className="w-4 h-4" />
+                    <ArrowLeft className="w-4 h-4" />
                   </button>
                 </div>
                 <div className="relative flex-1 overflow-hidden">
@@ -302,18 +309,19 @@ export default function MapCanvas({ pins, controls, popupUrl, isMobile = false }
                 className="relative w-[390px] max-w-full h-full"
               >
                 <motion.button
-                  initial={{ opacity: 0, scale: 0.6 }}
+                  initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                  whileHover={{ rotate: 90 }}
+                  transition={{ delay: 0.15 }}
+                  whileHover={{ x: -2 }}
+                  whileTap={{ scale: 0.94 }}
                   type="button"
-                  aria-label="Close dialog"
+                  aria-label="Back to map"
                   onClick={() => setActivePin(null)}
-                  className="absolute -left-14 top-4 z-20 w-10 h-10 rounded-full bg-white text-[#1E1713] hover:bg-[#F85B01] hover:text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] flex items-center justify-center transition-colors cursor-pointer"
+                  className="absolute -left-13 top-4 z-20 w-10 h-10 rounded-[4px] bg-white text-[#1E1713] hover:bg-[#F85B01] hover:text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] flex items-center justify-center transition-colors cursor-pointer"
                 >
-                  <X className="w-4.5 h-4.5" />
+                  <ArrowLeft className="w-5 h-5 stroke-[2.2]" />
                 </motion.button>
-                <div className="relative w-full h-full bg-white overflow-hidden rounded-l-[20px] shadow-[-30px_0_60px_-20px_rgba(0,0,0,0.45)]">
+                <div className="relative w-full h-full bg-white overflow-hidden rounded-l-[4px] shadow-[-30px_0_60px_-20px_rgba(0,0,0,0.45)]">
                   <button
                     type="button"
                     aria-label="Close property details"

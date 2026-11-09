@@ -66,7 +66,7 @@ export default function ChangePasswordDesktop() {
               <button
                 type="button"
                 disabled
-                className="w-full h-11 rounded-xl bg-[#EBE5DC] text-[#A89C90] text-sm font-black cursor-not-allowed transition-colors"
+                className="w-full h-11 rounded-xl bg-[#EBE5DC] text-[#A89C90] text-sm font-semibold cursor-not-allowed transition-colors"
               >
                 {changePasswordData.submitLabel}
               </button>

@@ -51,27 +51,27 @@ export default function SavedPropertiesMobile() {
                   <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-[#FFB074] shrink-0">
                     <Building2 className="w-4 h-4" />
                   </span>
-                  <h2 className="text-sm font-black tracking-tight truncate">{prop.name}</h2>
+                  <h2 className="text-sm font-bold tracking-tight truncate">{prop.name}</h2>
                 </div>
 
                 <div className="p-4 space-y-3">
                   <div>
-                    <p className="text-[11px] text-[#7A6D64] font-semibold flex items-center gap-1">
+                    <p className="text-[11px] text-[#7A6D64] font-medium flex items-center gap-1">
                       <MapPin className="w-3 h-3 text-[#F85B01]" />
                       {prop.location}
                     </p>
-                    <p className="text-xl font-black text-[#1E1713] mt-1 tracking-tight">
+                    <p className="text-xl font-bold text-[#1E1713] mt-1 tracking-tight">
                       {prop.price}
                     </p>
 
                     <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
-                      <span className="h-6 px-2.5 rounded-full bg-[#FAF6F1] text-[#322822] text-[11px] font-bold inline-flex items-center">
+                      <span className="h-6 px-2.5 rounded-full bg-[#FAF6F1] text-[#322822] text-[11px] font-semibold inline-flex items-center">
                         {prop.bhk}
                       </span>
-                      <span className="h-6 px-2.5 rounded-full bg-[#FAF6F1] text-[#322822] text-[11px] font-bold inline-flex items-center">
+                      <span className="h-6 px-2.5 rounded-full bg-[#FAF6F1] text-[#322822] text-[11px] font-semibold inline-flex items-center">
                         {prop.area}
                       </span>
-                      <span className="h-6 px-2.5 rounded-full bg-white border border-[#E2D9CD] text-[#7A6D64] text-[11px] font-bold inline-flex items-center">
+                      <span className="h-6 px-2.5 rounded-full bg-white border border-[#E2D9CD] text-[#7A6D64] text-[11px] font-medium inline-flex items-center">
                         {prop.status}
                       </span>
                     </div>
@@ -108,24 +108,24 @@ export default function SavedPropertiesMobile() {
               exit={{ opacity: 0, y: 80 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-sm rounded-t-[28px] sm:rounded-3xl bg-white shadow-2xl border-t sm:border border-[#EEE6DB] p-5 space-y-4"
+              className="relative w-full max-w-sm rounded-t-[4px] sm:rounded-[4px] bg-white shadow-2xl border-t sm:border border-[#EEE6DB] p-5 space-y-4"
             >
               <div className="flex items-center justify-between gap-3">
-                <h3 className="text-base font-black text-[#1E1713] tracking-tight">
+                <h3 className="text-base font-bold text-[#1E1713] tracking-tight">
                   Remove Saved Property?
                 </h3>
                 <button
                   type="button"
                   aria-label="Close dialog"
                   onClick={() => setConfirmRemoveProperty(null)}
-                  className="w-8 h-8 rounded-full bg-[#FAF6F1] hover:bg-[#F2ECE4] text-[#6B5E57] hover:text-[#1E1713] flex items-center justify-center cursor-pointer transition-colors shrink-0"
+                  className="w-8 h-8 rounded-[4px] bg-[#FAF6F1] hover:bg-[#F2ECE4] text-[#6B5E57] hover:text-[#1E1713] flex items-center justify-center cursor-pointer transition-colors shrink-0"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
               <p className="text-[11.5px] text-[#7A6D64] font-medium leading-relaxed -mt-1.5">
-                Are you sure you want to remove <span className="font-bold text-[#1E1713]">{confirmRemoveProperty.name}</span>?
+                Are you sure you want to remove <span className="font-semibold text-[#1E1713]">{confirmRemoveProperty.name}</span>?
               </p>
 
               <div className="flex items-center gap-2 pt-1">

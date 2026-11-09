@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowUpRight, Compass, Heart, MapPin, MessageSquare, Sparkles } from "lucide-react";
 import DashboardShell from "../Shell";
 import { dashboardData } from "./data";
+import dashPenthouse from "../../Assets/Luxury/dashboard_penthouse.jpg";
 import {
   Page,
   PageHeader,
@@ -11,7 +12,6 @@ import {
   CountUp,
   IconTile,
   AvatarBadge,
-  Skyline,
 } from "../ui";
 
 export default function DashboardDesktop() {
@@ -33,22 +33,27 @@ export default function DashboardDesktop() {
           subtitle={dashboardData.subtitle}
         />
 
-        <Card className="overflow-hidden p-6 sm:p-8 bg-gradient-to-br from-white via-[#FCFAF7] to-[#FFF6EE]">
-          <div className="absolute right-0 bottom-0 text-[#F85B01]/[0.06] pointer-events-none">
-            <Skyline className="w-80 h-28" />
-          </div>
-          <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <Card className="relative overflow-hidden p-6 sm:p-8 bg-gradient-to-br from-[#1E1713] via-[#2A1E18] to-[#1E1713] text-white border border-[#3A2D25] shadow-2xl">
+          <img
+            src={dashPenthouse}
+            alt="Penthouse"
+            className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity animate-cinematic"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1E1713]/95 via-[#1E1713]/85 to-transparent pointer-events-none" />
+          <span className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-[#F85B01]/30 blur-3xl pointer-events-none" />
+          <span className="absolute bottom-0 inset-x-0 h-px hairline-gold opacity-50" />
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-5">
-              <AvatarBadge size={68} dark={true} />
+              <AvatarBadge size={68} dark={false} />
               <div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FFF1E6] text-[#F85B01] text-[11px] font-extrabold mb-1.5">
-                  <Sparkles className="w-3 h-3" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[#FFB074] text-[11px] font-semibold mb-2 tracking-wide uppercase">
+                  <Sparkles className="w-3 h-3 text-[#F85B01]" />
                   Verified Buyer
                 </div>
-                <h2 className="text-xl sm:text-2xl font-black text-[#1E1713] tracking-tight">
+                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                   {dashboardData.welcomeCard.title}
                 </h2>
-                <p className="text-sm text-[#7A6D64] font-medium mt-1">
+                <p className="text-sm text-[#D1C6BC] font-medium mt-1">
                   {dashboardData.welcomeCard.subtitle}
                 </p>
               </div>
@@ -81,10 +86,10 @@ export default function DashboardDesktop() {
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </span>
                 </div>
-                <p className="text-xs sm:text-[13px] font-bold text-[#7A6D64] uppercase tracking-wider">
+                <p className="text-xs sm:text-[13px] font-semibold text-[#7A6D64] uppercase tracking-wider">
                   {stat.label}
                 </p>
-                <p className="text-3xl font-black text-[#1E1713] mt-2 tracking-tight">
+                <p className="text-3xl font-bold text-[#1E1713] mt-2 tracking-tight">
                   <CountUp value={stat.value} />
                 </p>
               </Card>
@@ -97,7 +102,7 @@ export default function DashboardDesktop() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#F85B01]" />
-                <h3 className="text-base sm:text-lg font-black text-[#1E1713] tracking-tight">
+                <h3 className="text-base sm:text-lg font-bold text-[#1E1713] tracking-tight">
                   {dashboardData.interestsCard.title}
                 </h3>
               </div>

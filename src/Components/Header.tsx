@@ -44,7 +44,7 @@ export default function Header({
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F85B01] opacity-75" />
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#F85B01]" />
           </span>
-          <span className="text-[#1E1713] font-black text-base sm:text-lg tracking-tight flex items-center gap-1.5">
+          <span className="text-[#1E1713] font-bold text-base sm:text-lg tracking-tight flex items-center gap-1.5">
             Gully Properties
           </span>
         </div>
@@ -60,7 +60,7 @@ export default function Header({
                 type="button"
                 onClick={() => onViewModeChange(mode)}
                 title={mode === "desktop" ? "Desktop View" : "Mobile View"}
-                className={`relative z-10 flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-bold transition-colors duration-200 cursor-pointer ${
+                className={`relative z-10 flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-colors duration-200 cursor-pointer ${
                   active ? "text-white" : "text-[#6B5E57] hover:text-[#1E1713]"
                 }`}
               >
@@ -87,7 +87,7 @@ export default function Header({
 
       <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-extrabold tracking-widest text-[#8C7F75] uppercase hidden md:block">
+          <span className="text-[10px] font-semibold tracking-widest text-[#8C7F75] uppercase hidden md:block">
             View
           </span>
           <div className="w-[140px] sm:w-[160px] md:w-[175px]">

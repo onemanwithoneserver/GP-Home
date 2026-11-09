@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check, Sparkles } from "lucide-react";
-import bg from "./Bg.png";
+import authResidence from "../Assets/Luxury/auth_residence.jpg";
 import {
   GullyLogo,
   categories,
@@ -313,7 +313,7 @@ export function CreateAccountCard() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center text-[22px] sm:text-2xl lg:text-[26px] font-extrabold text-[#1E1713] tracking-[-0.02em] leading-tight"
+          className="text-center text-[22px] sm:text-2xl lg:text-[26px] font-bold text-[#1E1713] tracking-[-0.02em] leading-tight"
         >
           Create Account
         </motion.h2>
@@ -354,7 +354,7 @@ export function CreateAccountCard() {
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="text-sm font-extrabold text-[#15803D]"
+                    className="text-sm font-semibold text-[#15803D]"
                   >
                     Account Created Successfully!
                   </motion.p>
@@ -780,7 +780,7 @@ export default function CreateAccountDesktop() {
   return (
     <div
       className="relative w-full h-full min-h-0 flex-1 overflow-hidden bg-cover bg-center flex flex-col justify-center select-text"
-      style={{ backgroundImage: `url(${bg})` }}
+      style={{ backgroundImage: `url(${authResidence})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF8]/88 via-[#FDFBF8]/55 to-[#FDFBF8]/15 pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-[#FDFBF8]/15 via-transparent to-[#FDFBF8]/30 pointer-events-none" />
@@ -816,14 +816,14 @@ export default function CreateAccountDesktop() {
               transition={{ duration: 0.55, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="h-[2px] bg-gradient-to-r from-[#F85B01] to-[#FF7A00] rounded-full"
             />
-            <span className="text-[11px] lg:text-xs tracking-[0.25em] uppercase text-[#F85B01] font-extrabold select-text">
+            <span className="text-[11px] lg:text-xs tracking-[0.25em] uppercase text-[#F85B01] font-semibold select-text">
               {createAccountData.tagline}
             </span>
           </motion.div>
 
           <motion.h1
             variants={itemVariants}
-            className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-black leading-[1.08] text-[#1E1713] tracking-[-0.025em] select-text"
+            className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[48px] font-bold leading-[1.08] text-[#1E1713] tracking-[-0.025em] select-text"
           >
             {createAccountData.headline}
             <br />
@@ -845,7 +845,7 @@ export default function CreateAccountDesktop() {
                 type="button"
                 whileHover={{ y: -5, scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                className="group relative h-[82px] sm:h-[90px] lg:h-[96px] rounded-[4px] flex flex-col items-center justify-center gap-2 text-center text-[10px] sm:text-[11px] lg:text-xs font-extrabold cursor-pointer transition-all duration-300 border bg-white/90 backdrop-blur-lg border-[#E5DFD4]/80 text-[#322822] shadow-[0_1px_3px_rgba(50,40,34,0.04)] hover:bg-[#FFF8F3] hover:border-[#F85B01]/50 hover:text-[#C94A00] hover:ring-[2px] hover:ring-[#F85B01]/12 hover:shadow-[0_8px_24px_rgba(248,91,1,0.1)] select-text"
+                className="group relative h-[82px] sm:h-[90px] lg:h-[96px] rounded-[4px] flex flex-col items-center justify-center gap-2 text-center text-[10px] sm:text-[11px] lg:text-xs font-semibold cursor-pointer transition-all duration-300 border bg-white/90 backdrop-blur-lg border-[#E5DFD4]/80 text-[#322822] shadow-[0_1px_3px_rgba(50,40,34,0.04)] hover:bg-[#FFF8F3] hover:border-[#F85B01]/50 hover:text-[#C94A00] hover:ring-[2px] hover:ring-[#F85B01]/12 hover:shadow-[0_8px_24px_rgba(248,91,1,0.1)] select-text"
               >
                 <Icon className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[#F85B01] group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300" />
                 <span className="leading-tight px-1">{label}</span>

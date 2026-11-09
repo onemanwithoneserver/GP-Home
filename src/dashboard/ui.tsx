@@ -63,7 +63,7 @@ export function PageHeader({
         <h1
           className={`${
             isMobile ? "text-[22px]" : "text-[32px]"
-          } font-black tracking-[-0.025em] text-[#1E1713] leading-[1.08]`}
+          } font-bold tracking-[-0.02em] text-[#1E1713] leading-[1.08]`}
         >
           {title}
         </h1>
@@ -167,7 +167,7 @@ export function PrimaryButton({
       whileHover={{ y: -1 }}
       whileTap={{ scale: 0.97 }}
       type={type}
-      className={`sheen relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#F85B01] via-[#FF6A10] to-[#FF8A2A] text-white font-extrabold shadow-[0_10px_22px_-8px_rgba(248,91,1,0.6),inset_0_1px_0_rgba(255,255,255,0.28)] hover:shadow-[0_14px_30px_-10px_rgba(248,91,1,0.7),inset_0_1px_0_rgba(255,255,255,0.32)] transition-shadow cursor-pointer ${
+      className={`sheen relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#F85B01] via-[#FF6A10] to-[#FF8A2A] text-white font-semibold shadow-[0_10px_22px_-8px_rgba(248,91,1,0.6),inset_0_1px_0_rgba(255,255,255,0.28)] hover:shadow-[0_14px_30px_-10px_rgba(248,91,1,0.7),inset_0_1px_0_rgba(255,255,255,0.32)] transition-shadow cursor-pointer ${
         size === "sm" ? "h-9 px-3.5 text-[12px]" : "h-11 px-5 text-[13px]"
       } ${className}`}
       {...rest}
@@ -193,7 +193,7 @@ export function SecondaryButton({
       whileHover={{ y: -1 }}
       whileTap={{ scale: 0.97 }}
       type={type}
-      className={`group inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-[#E2D9CD] text-[#322822] font-bold hover:border-[#F85B01]/50 hover:text-[#F85B01] hover:shadow-[0_8px_20px_-12px_rgba(248,91,1,0.5)] transition-all cursor-pointer ${
+      className={`group inline-flex items-center justify-center gap-2 rounded-xl bg-white border border-[#E2D9CD] text-[#322822] font-semibold hover:border-[#F85B01]/50 hover:text-[#F85B01] hover:shadow-[0_8px_20px_-12px_rgba(248,91,1,0.5)] transition-all cursor-pointer ${
         size === "sm" ? "h-9 px-3.5 text-[12px]" : "h-11 px-5 text-[13px]"
       } ${className}`}
       {...rest}
@@ -210,7 +210,7 @@ export function DangerButton({ children, className = "", icon, type = "button", 
     <motion.button
       whileTap={{ scale: 0.96 }}
       type={type}
-      className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-[12.5px] font-bold text-[#DC2626] hover:bg-[#FEF2F2] transition-colors cursor-pointer ${className}`}
+      className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-lg text-[12.5px] font-semibold text-[#DC2626] hover:bg-[#FEF2F2] transition-colors cursor-pointer ${className}`}
       {...rest}
     >
       {icon}
@@ -574,7 +574,7 @@ export function EmptyState({
             <Icon className="w-6 h-6" />
           </motion.span>
         </div>
-        <h2 className={`${isMobile ? "text-[15px]" : "text-lg"} font-black text-[#1E1713] tracking-tight`}>
+        <h2 className={`${isMobile ? "text-[15px]" : "text-lg"} font-bold text-[#1E1713] tracking-tight`}>
           {title}
         </h2>
         <p

@@ -70,7 +70,7 @@ export default function ChangePasswordMobile() {
               <button
                 type="button"
                 disabled
-                className="w-full h-10 rounded-xl bg-[#EBE5DC] text-[#A89C90] text-xs font-black cursor-not-allowed"
+                className="w-full h-10 rounded-xl bg-[#EBE5DC] text-[#A89C90] text-xs font-semibold cursor-not-allowed"
               >
                 {changePasswordData.submitLabel}
               </button>

@@ -84,7 +84,7 @@ export default function SavedPlacesDesktop() {
                 <div className="flex items-start gap-3.5 min-w-0">
                   <IconTile icon={MapPin} tone="brand" size="md" />
                   <div className="min-w-0">
-                    <h3 className="text-base font-black text-[#1E1713] tracking-tight truncate">
+                    <h3 className="text-base font-bold text-[#1E1713] tracking-tight truncate">
                       {place.label}
                     </h3>
                     <p className="text-xs text-[#7A6D64] font-medium mt-1 leading-relaxed">
@@ -125,7 +125,7 @@ export default function SavedPlacesDesktop() {
             >
               <div className="flex items-center justify-between pb-2 border-b border-[#F2ECE4]">
                 <div>
-                  <h2 className="text-lg font-black text-[#1E1713] tracking-tight">
+                  <h2 className="text-lg font-bold text-[#1E1713] tracking-tight">
                     {savedPlacesData.modal.title}
                   </h2>
                   <p className="text-xs text-[#7A6D64] font-medium mt-0.5">
@@ -179,7 +179,7 @@ export default function SavedPlacesDesktop() {
 
               <div>
                 <div className="mb-2">
-                  <h3 className="text-xs font-black uppercase tracking-wider text-[#1E1713]">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#1E1713]">
                     {savedPlacesData.modal.mapTitle}
                   </h3>
                   <p className="text-xs text-[#7A6D64] font-medium">
